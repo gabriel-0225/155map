@@ -286,6 +286,179 @@
       scroll-margin-top: 92px;
     }
 
+    .today-brief {
+      margin: 24px 0 28px;
+      scroll-margin-top: 92px;
+    }
+
+    .brief-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.52fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .brief-panel {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 251, 243, 0.84)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .brief-main {
+      padding: clamp(20px, 3vw, 30px);
+    }
+
+    .brief-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: white;
+      background: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .brief-title {
+      margin: 14px 0 0;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .brief-meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .brief-card {
+      min-height: 132px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--card);
+    }
+
+    .brief-card span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .brief-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .brief-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.58;
+    }
+
+    .rank-panel {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 100%;
+    }
+
+    .rank-head {
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .rank-head strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .rank-head p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .rank-list {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      padding: 14px;
+      max-height: 430px;
+      overflow: auto;
+    }
+
+    .rank-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 62px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .rank-no {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      color: white;
+      background: var(--rank-color, var(--accent));
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .rank-name strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .rank-name span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .rank-metric {
+      min-width: 78px;
+      text-align: right;
+    }
+
+    .rank-metric strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .rank-metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
     .section-head {
       display: flex;
       align-items: flex-end;
@@ -653,6 +826,10 @@
       font-size: 12px;
     }
 
+    .stock-table {
+      min-width: 1220px;
+    }
+
     th,
     td {
       padding: 10px 9px;
@@ -700,6 +877,33 @@
       font-size: 11px;
     }
 
+    .reason-cell {
+      min-width: 138px;
+      max-width: 210px;
+      white-space: normal;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .risk-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      min-width: 150px;
+      white-space: normal;
+    }
+
+    .risk-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 0 7px;
+      color: #72453d;
+      background: #f5e1dc;
+      font-size: 11px;
+    }
+
     .risk-line {
       margin: 12px 0 0;
       color: var(--muted);
@@ -718,6 +922,7 @@
       .hero,
       .source-layout,
       .source-unified,
+      .brief-shell,
       .stock-layout {
         grid-template-columns: 1fr;
       }
@@ -747,6 +952,7 @@
       }
 
       .stat-grid,
+      .brief-grid,
       .chapter-grid,
       .source-unified,
       .mini-grid {
@@ -772,6 +978,7 @@
       <div class="nav-links">
         <a href="#source">规划原文</a>
         <a href="#mindmap">思维导图</a>
+        <a href="#today">今日结论</a>
         <a href="#stocks">股票池走势</a>
         <a href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer">官方原文</a>
       </div>
@@ -779,6 +986,51 @@
   </header>
 
   <main class="shell">
+    <section class="today-brief" id="today">
+      <div class="brief-shell">
+        <div class="brief-panel brief-main">
+          <span class="brief-kicker">今日结论区</span>
+          <h2 class="brief-title" id="todayHeadline">等待行情生成今日产业结论</h2>
+          <p class="brief-meta" id="todayMeta">将根据股票池产业组等权指数、上证指数、深证成指和创业板指的同起点相对表现自动更新。</p>
+          <div class="brief-grid">
+            <article class="brief-card">
+              <span>最强政策主线</span>
+              <strong id="strongestPolicy">等待历史序列</strong>
+              <p id="strongestPolicyNote">历史行情加载完成后显示领先主线。</p>
+            </article>
+            <article class="brief-card">
+              <span>市场验证最强</span>
+              <strong id="marketValidation">等待对比基准</strong>
+              <p id="marketValidationNote">比较最近累计涨幅是否领先主要宽基指数。</p>
+            </article>
+            <article class="brief-card">
+              <span>当前风险</span>
+              <strong id="currentRisk">行情数据延迟</strong>
+              <p id="currentRiskNote">主题拥挤度、估值过高、政策预期兑现均需动态观察。</p>
+            </article>
+            <article class="brief-card">
+              <span>今日操作倾向</span>
+              <strong id="operationBias">观察</strong>
+              <p id="operationBiasNote">按产业组强弱和短线涨跌自动判断。</p>
+            </article>
+          </div>
+        </div>
+        <aside class="brief-panel rank-panel" id="sectorRank">
+          <div class="rank-head">
+            <strong>产业强弱排行榜</strong>
+            <p id="rankSummary">等待历史行情加载，按产业组等权指数累计表现排序。</p>
+          </div>
+          <div class="rank-list" id="sectorRankRows">
+            <div class="rank-row">
+              <span class="rank-no">--</span>
+              <div class="rank-name"><strong>等待行情数据</strong><span>暂无可排序产业组</span></div>
+              <div class="rank-metric"><strong>--</strong><span>累计</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
     <section class="hero">
       <div class="hero-panel">
         <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
@@ -943,12 +1195,16 @@
             <input id="stockSearch" type="search" placeholder="搜索代码/名称">
           </div>
           <div class="stock-table-wrap">
-            <table>
+            <table class="stock-table">
               <thead>
                 <tr>
                   <th>代码</th>
                   <th>名称</th>
                   <th>产业</th>
+                  <th>入选逻辑</th>
+                  <th>受益强度</th>
+                  <th>业绩验证</th>
+                  <th>风险标签</th>
                   <th>最新</th>
                   <th>涨跌</th>
                 </tr>
@@ -966,7 +1222,101 @@
   </main>
 
   <script>
-    const stocks = [
+    const sectorProfiles = {
+      "AI算力与半导体": {
+        policyLine: "AI算力",
+        logic: "算力基础设施、国产芯片和高速互联是数字中国与科技自立的底座。",
+        benefit: "高",
+        verify: "订单、资本开支、国产替代进度",
+        riskTags: ["估值高", "出口限制", "订单兑现"]
+      },
+      "软件与数据": {
+        policyLine: "AI应用 / 数据要素",
+        logic: "受益于政企数字化、AI应用落地和数据资源化推进。",
+        benefit: "中高",
+        verify: "合同增长、付费率、回款质量",
+        riskTags: ["预算推迟", "商业化验证", "合规监管"]
+      },
+      "高端装备与机器人": {
+        policyLine: "高端制造",
+        logic: "制造业升级、智能制造和工业母机国产化共同提升设备需求。",
+        benefit: "高",
+        verify: "在手订单、产能利用率、进口替代份额",
+        riskTags: ["资本开支波动", "竞争加剧", "量产节奏"]
+      },
+      "新能源与电网": {
+        policyLine: "新型能源体系",
+        logic: "清洁低碳、安全高效的新型能源体系需要电源、电网和储能协同建设。",
+        benefit: "高",
+        verify: "装机增速、电网投资、出货和毛利率",
+        riskTags: ["价格内卷", "消纳约束", "海外壁垒"]
+      },
+      "智能汽车": {
+        policyLine: "高端制造 / 智能终端",
+        logic: "智能电动化带动整车、零部件和辅助驾驶产业链升级。",
+        benefit: "中高",
+        verify: "销量、单车价值量、客户定点",
+        riskTags: ["降价压力", "法规节奏", "海外关税"]
+      },
+      "新材料与资源": {
+        policyLine: "安全韧性 / 新材料",
+        logic: "关键材料和战略资源支撑高端制造、能源转型和产业链安全。",
+        benefit: "中高",
+        verify: "资源价格、产量、下游需求",
+        riskTags: ["商品波动", "供给扩张", "环保约束"]
+      },
+      "消费与服务": {
+        policyLine: "扩大内需",
+        logic: "消费修复、服务消费扩容和品牌集中度提升构成内需验证样本。",
+        benefit: "中",
+        verify: "客流、同店、渠道库存、价格体系",
+        riskTags: ["收入预期", "需求疲弱", "库存压力"]
+      },
+      "医疗与银发经济": {
+        policyLine: "民生健康 / 银发经济",
+        logic: "人口结构变化、医疗创新和健康消费升级带来中长期需求。",
+        benefit: "中",
+        verify: "研发管线、院内复苏、医保支付",
+        riskTags: ["集采降价", "研发失败", "支付约束"]
+      },
+      "农业与安全": {
+        policyLine: "安全韧性",
+        logic: "粮食安全、种业振兴和农业机械化是底线型政策方向。",
+        benefit: "中",
+        verify: "种子销售、农产品价格、补贴政策",
+        riskTags: ["价格周期", "疫病扰动", "商业化周期"]
+      },
+      "基建与城市更新": {
+        policyLine: "安全韧性 / 城市更新",
+        logic: "有效投资、城市更新和基础设施补短板支撑工程链条。",
+        benefit: "中",
+        verify: "新签订单、专项债、现金流",
+        riskTags: ["财政约束", "回款周期", "低毛利"]
+      },
+      "海洋与国防": {
+        policyLine: "安全韧性",
+        logic: "海洋强国、国防现代化和供应链安全提升装备与运输需求。",
+        benefit: "中高",
+        verify: "军品订单、船舶周期、运价",
+        riskTags: ["周期反转", "原料成本", "事件驱动"]
+      },
+      "环保与碳管理": {
+        policyLine: "绿色转型",
+        logic: "碳达峰、生态治理和节能服务带来环保运营与能效管理需求。",
+        benefit: "中",
+        verify: "项目回款、利用小时、价格机制",
+        riskTags: ["地方支付", "政策价格", "项目收益率"]
+      },
+      "金融强国": {
+        policyLine: "金融强国",
+        logic: "资本市场改革、财富管理和风险定价能力支撑金融体系韧性。",
+        benefit: "中",
+        verify: "净息差、保费、成交额和权益市场",
+        riskTags: ["信用风险", "权益波动", "净息差下行"]
+      }
+    };
+
+    const stockRows = [
       ["688041", "海光信息", "AI算力与半导体"], ["603019", "中科曙光", "AI算力与半导体"], ["000977", "浪潮信息", "AI算力与半导体"],
       ["300308", "中际旭创", "AI算力与半导体"], ["300502", "新易盛", "AI算力与半导体"], ["000063", "中兴通讯", "AI算力与半导体"],
       ["688111", "金山办公", "软件与数据"], ["600845", "宝信软件", "软件与数据"], ["688777", "中控技术", "软件与数据"],
@@ -997,7 +1347,22 @@
       ["603568", "伟明环保", "环保与碳管理"], ["600323", "瀚蓝环境", "环保与碳管理"], ["603588", "高能环境", "环保与碳管理"],
       ["003035", "南网能源", "环保与碳管理"], ["600036", "招商银行", "金融强国"], ["601318", "中国平安", "金融强国"],
       ["601601", "中国太保", "金融强国"], ["600030", "中信证券", "金融强国"], ["300059", "东方财富", "金融强国"]
-    ].map(([code, name, sector]) => ({ code, name, sector, secid: `${code.startsWith("6") ? "1" : "0"}.${code}`, sina: sinaSymbol(code) }));
+    ];
+
+    const stocks = stockRows.map(([code, name, sector, detail = {}]) => {
+      const profile = sectorProfiles[sector] || {};
+      return {
+        code,
+        name,
+        sector,
+        logic: detail.logic || profile.logic || "政策受益链条观察样本。",
+        benefit: detail.benefit || profile.benefit || "中",
+        verify: detail.verify || profile.verify || "业绩、订单和现金流验证",
+        riskTags: detail.riskTags || profile.riskTags || ["估值", "业绩兑现"],
+        secid: `${code.startsWith("6") ? "1" : "0"}.${code}`,
+        sina: sinaSymbol(code)
+      };
+    });
 
     const TRACKING_START = "20260313";
     const TRACKING_START_LABEL = "2026-03-13";
@@ -1147,6 +1512,7 @@
       renderTable();
       renderBars();
       renderStats();
+      renderDecisionDashboard();
     }
 
     function chunk(items, size) {
@@ -1336,6 +1702,127 @@
       document.getElementById("sectorChartHint").textContent = loadedSectors
         ? `${loadedSectors}/${sectors.length}条主线已有历史序列，当前显示 ${visibleSeries.length} 条`
         : `各主线以${TRACKING_START_LABEL}=100归一化`;
+      renderDecisionDashboard();
+    }
+
+    function renderDecisionDashboard() {
+      const rows = getSectorRankRows();
+      const rankContainer = document.getElementById("sectorRankRows");
+      if (!rows.length) {
+        document.getElementById("todayHeadline").textContent = "等待行情生成今日产业结论";
+        document.getElementById("todayMeta").textContent = "将根据股票池产业组等权指数、上证指数、深证成指和创业板指的同起点相对表现自动更新。";
+        document.getElementById("strongestPolicy").textContent = "等待历史序列";
+        document.getElementById("strongestPolicyNote").textContent = "历史行情加载完成后显示领先主线。";
+        document.getElementById("marketValidation").textContent = "等待对比基准";
+        document.getElementById("marketValidationNote").textContent = "比较最近累计涨幅是否领先主要宽基指数。";
+        document.getElementById("currentRisk").textContent = "行情数据延迟";
+        document.getElementById("currentRiskNote").textContent = "主题拥挤度、估值过高、政策预期兑现均需动态观察。";
+        document.getElementById("operationBias").textContent = "观察";
+        document.getElementById("operationBiasNote").textContent = "按产业组强弱和短线涨跌自动判断。";
+        document.getElementById("rankSummary").textContent = "等待历史行情加载，按产业组等权指数累计表现排序。";
+        rankContainer.innerHTML = `<div class="rank-row">
+          <span class="rank-no">--</span>
+          <div class="rank-name"><strong>等待行情数据</strong><span>暂无可排序产业组</span></div>
+          <div class="rank-metric"><strong>--</strong><span>累计</span></div>
+        </div>`;
+        return;
+      }
+
+      const top = rows[0];
+      const benchmarkText = top.benchmarkCount >= 3
+        ? top.beatsAll ? "领先上证、深证和创业板" : "尚未同时领先三大指数"
+        : "宽基指数数据仍在加载";
+      const dayText = Number.isFinite(top.dayPct) ? `今日均涨跌 ${fmtPct(top.dayPct)}` : "今日涨跌待加载";
+
+      document.getElementById("todayHeadline").textContent = `${top.profile.policyLine || top.sector} 当前最强`;
+      document.getElementById("todayMeta").textContent = `${top.sector} 等权指数自${TRACKING_START_LABEL}以来累计 ${fmtPct(top.totalReturn)}，${benchmarkText}；${dayText}。`;
+      document.getElementById("strongestPolicy").textContent = top.profile.policyLine || top.sector;
+      document.getElementById("strongestPolicyNote").textContent = top.profile.logic || "该产业组在当前样本中表现领先。";
+      document.getElementById("marketValidation").textContent = top.sector;
+      document.getElementById("marketValidationNote").textContent = `${benchmarkText}，可用历史样本 ${top.sampleCount} 只。`;
+      document.getElementById("currentRisk").textContent = top.riskTags.slice(0, 3).join(" / ");
+      document.getElementById("currentRiskNote").textContent = buildRiskNote(top);
+      document.getElementById("operationBias").textContent = top.action;
+      document.getElementById("operationBiasNote").textContent = top.actionReason;
+      document.getElementById("rankSummary").textContent = `已生成 ${rows.length} 个产业组排行；排序口径为产业等权指数累计表现，辅以今日均涨跌。`;
+
+      rankContainer.innerHTML = rows.map((row, index) => `<div class="rank-row" style="--rank-color: ${sectorColors[index % sectorColors.length]}">
+        <span class="rank-no">${index + 1}</span>
+        <div class="rank-name">
+          <strong>${escapeHtml(row.sector)}</strong>
+          <span>${escapeHtml(row.action)} · ${escapeHtml(row.profile.policyLine || row.sector)} · ${escapeHtml(row.sampleCount)}只样本</span>
+        </div>
+        <div class="rank-metric">
+          <strong class="${row.totalReturn >= 0 ? "pos" : "neg"}">${fmtPct(row.totalReturn)}</strong>
+          <span>${Number.isFinite(row.dayPct) ? `今日${fmtPct(row.dayPct)}` : "今日--"}</span>
+        </div>
+      </div>`).join("");
+    }
+
+    function getSectorRankRows() {
+      const coreBenchmarks = marketIndices.slice(0, 3)
+        .map((index) => normalizeSeries(state.indexHistoryMap.get(index.code) || []))
+        .map((series) => series.at(-1))
+        .filter(Boolean)
+        .map((item) => item.value - 100);
+      return buildSectorSeries().map((series) => {
+        const latest = series.data.at(-1);
+        const totalReturn = latest ? latest.value - 100 : null;
+        const stats = getSectorQuoteStats(series.id);
+        const profile = sectorProfiles[series.id] || {};
+        const sampleCount = stocks.filter((stock) => stock.sector === series.id && (state.historyMap.get(stock.code) || []).length > 1).length;
+        const beatsAll = coreBenchmarks.length >= 3 && coreBenchmarks.every((value) => Number.isFinite(totalReturn) && totalReturn > value);
+        const actionInfo = getSectorAction({ totalReturn, dayPct: stats.avgPct, beatsAll, profile, sampleCount, benchmarkReturns: coreBenchmarks });
+        return {
+          sector: series.id,
+          profile,
+          totalReturn,
+          dayPct: stats.avgPct,
+          quoteCount: stats.count,
+          sampleCount,
+          benchmarkCount: coreBenchmarks.length,
+          beatsAll,
+          riskTags: profile.riskTags || ["估值", "业绩兑现"],
+          action: actionInfo.action,
+          actionReason: actionInfo.reason
+        };
+      }).filter((row) => Number.isFinite(row.totalReturn))
+        .sort((a, b) => b.totalReturn - a.totalReturn);
+    }
+
+    function getSectorQuoteStats(sector) {
+      const values = stocks
+        .filter((stock) => stock.sector === sector)
+        .map((stock) => state.quoteMap.get(stock.code))
+        .filter((quote) => quote && Number.isFinite(quote.pct))
+        .map((quote) => quote.pct);
+      return { avgPct: values.length ? avg(values) : null, count: values.length };
+    }
+
+    function getSectorAction(row) {
+      const benchmarkMedian = row.benchmarkReturns.length
+        ? [...row.benchmarkReturns].sort((a, b) => a - b)[Math.floor(row.benchmarkReturns.length / 2)]
+        : null;
+      const hotRisk = (row.profile.riskTags || []).some((tag) => /估值|内卷|兑现|事件驱动/.test(tag));
+      if (!Number.isFinite(row.totalReturn) || row.sampleCount < 2) {
+        return { action: "观察", reason: "历史样本不足，先等待更多行情验证。" };
+      }
+      if (row.beatsAll && (row.dayPct > 3.5 || (row.totalReturn > 25 && hotRisk))) {
+        return { action: "等回调", reason: "趋势较强但短线涨幅或拥挤风险偏高。" };
+      }
+      if (row.beatsAll && (!Number.isFinite(row.dayPct) || row.dayPct > -1)) {
+        return { action: "加入自选", reason: "累计表现领先三大指数，且短线未明显转弱。" };
+      }
+      if (Number.isFinite(benchmarkMedian) && row.totalReturn < benchmarkMedian - 5 && row.dayPct < 0) {
+        return { action: "剔除", reason: "相对宽基明显落后，且今日仍偏弱。" };
+      }
+      return { action: "观察", reason: "强弱信号尚未形成一致验证。" };
+    }
+
+    function buildRiskNote(row) {
+      const generic = ["主题拥挤度", "估值过高", "政策预期兑现", "行情数据延迟"];
+      const tags = [...new Set([...(row.riskTags || []), ...generic])].slice(0, 5);
+      return `${tags.join("、")}是当前跟踪重点。`;
     }
 
     function renderSeriesOptions(containerId, seriesList, hiddenSet, onChange) {
@@ -1470,6 +1957,10 @@
           <td>${stock.code}</td>
           <td>${stock.name}</td>
           <td><span class="tag">${stock.sector}</span></td>
+          <td class="reason-cell">${escapeHtml(stock.logic)}</td>
+          <td><span class="tag">${escapeHtml(stock.benefit)}</span></td>
+          <td class="reason-cell">${escapeHtml(stock.verify)}</td>
+          <td><div class="risk-tags">${stock.riskTags.map((tag) => `<span class="risk-tag">${escapeHtml(tag)}</span>`).join("")}</div></td>
           <td>${fmt(quote.price)}</td>
           <td class="${pctClass}">${fmtPct(quote.pct)}</td>
         </tr>`;
@@ -1498,7 +1989,7 @@
     function filteredStocks() {
       return currentUniverse().filter((stock) => {
         if (!state.query) return true;
-        return `${stock.code} ${stock.name} ${stock.sector}`.toLowerCase().includes(state.query);
+        return `${stock.code} ${stock.name} ${stock.sector} ${stock.logic} ${stock.benefit} ${stock.verify} ${stock.riskTags.join(" ")}`.toLowerCase().includes(state.query);
       });
     }
 
