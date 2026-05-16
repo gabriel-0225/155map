@@ -70,6 +70,66 @@
       font: inherit;
     }
 
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      z-index: 20;
+      width: max-content;
+      max-width: 220px;
+      transform: translate(-50%, 4px);
+      padding: 7px 9px;
+      border-radius: 8px;
+      color: #fff8ea;
+      background: rgba(32, 36, 43, 0.94);
+      box-shadow: 0 12px 26px rgba(32, 36, 43, 0.22);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: center;
+      white-space: normal;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    [data-tooltip]::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 3px);
+      z-index: 21;
+      width: 8px;
+      height: 8px;
+      transform: translate(-50%, 4px) rotate(45deg);
+      background: rgba(32, 36, 43, 0.94);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    [data-tooltip]:hover::after,
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::after,
+    [data-tooltip]:focus-visible::before {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .toolbar [data-tooltip]::after {
+      top: calc(100% + 9px);
+      bottom: auto;
+    }
+
+    .toolbar [data-tooltip]::before {
+      top: calc(100% + 3px);
+      bottom: auto;
+    }
+
     .app {
       display: grid;
       grid-template-columns: 336px minmax(0, 1fr) 344px;
@@ -81,7 +141,7 @@
       position: relative;
       z-index: 3;
       min-height: 100vh;
-      padding: 22px;
+      padding: 18px;
       background: var(--panel);
       backdrop-filter: blur(18px);
       border-color: var(--line);
@@ -100,7 +160,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
 
     .mark {
@@ -137,13 +197,13 @@
     }
 
     .section {
-      margin-top: 18px;
-      padding-top: 16px;
+      margin-top: 9px;
+      padding-top: 10px;
       border-top: 1px solid var(--line);
     }
 
     .section h2 {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       font-size: 13px;
       letter-spacing: 0;
       color: var(--muted);
@@ -152,8 +212,8 @@
 
     .control {
       display: grid;
-      gap: 8px;
-      margin-bottom: 14px;
+      gap: 5px;
+      margin-bottom: 7px;
     }
 
     .control label {
@@ -164,10 +224,10 @@
     .control input[type="search"],
     .control select {
       width: 100%;
-      min-height: 40px;
+      min-height: 34px;
       border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 9px 11px;
+      padding: 7px 10px;
       color: var(--ink);
       background: var(--panel-strong);
       outline: none;
@@ -199,7 +259,7 @@
     }
 
     .segmented button {
-      min-height: 32px;
+      min-height: 28px;
       font-size: 12px;
     }
 
@@ -212,7 +272,7 @@
 
     .switches {
       display: grid;
-      gap: 8px;
+      gap: 6px;
     }
 
     .toggle {
@@ -220,40 +280,41 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      min-height: 42px;
-      padding: 6px 6px 6px 12px;
+      min-height: 34px;
+      padding: 4px 5px 4px 10px;
       border: 1px solid var(--line);
       border-radius: 12px;
       background: var(--panel-strong);
     }
 
     .toggle span {
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .toggle button {
-      min-width: 54px;
-      min-height: 30px;
-      padding: 0 10px;
+      min-width: 48px;
+      min-height: 26px;
+      padding: 0 8px;
       background: var(--chip);
       font-size: 12px;
     }
 
     .theme-list {
       display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
     }
 
     .theme-card {
       display: grid;
-      grid-template-columns: 16px 1fr auto;
+      grid-template-columns: 14px minmax(0, 1fr);
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      min-height: 42px;
+      min-height: 34px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 8px 10px;
+      padding: 6px 8px;
       color: var(--ink);
       background: var(--panel-strong);
       text-align: left;
@@ -272,9 +333,25 @@
       background: var(--theme-color);
     }
 
+    .theme-card > span:nth-child(2) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
     .theme-card small {
+      display: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: var(--muted);
       font-size: 11px;
+    }
+
+    .theme-card br {
+      display: none;
     }
 
     .canvas-wrap {
@@ -423,8 +500,9 @@
       display: inline-grid;
       place-items: center;
       flex: 0 0 auto;
-      width: 30px;
-      height: 30px;
+      width: 34px;
+      height: 34px;
+      border: 0;
       border-radius: 999px;
       color: var(--node-root-text);
       background: var(--node-accent, var(--accent));
@@ -432,6 +510,7 @@
       font-weight: 800;
       line-height: 1;
       box-shadow: 0 8px 18px color-mix(in srgb, var(--node-accent, var(--accent)) 28%, transparent);
+      cursor: pointer;
     }
 
     .node-card.root .node-kicker {
@@ -669,6 +748,10 @@
         display: block;
       }
 
+      .theme-list {
+        grid-template-columns: 1fr;
+      }
+
       .side,
       .inspector {
         min-height: auto;
@@ -705,21 +788,21 @@
         <h2>投研筛选</h2>
         <div class="control">
           <label for="search">产业/股票检索</label>
-          <input id="search" type="search" placeholder="例如：AI、储能、宁德时代">
+          <input id="search" type="search" placeholder="例如：AI、储能、宁德时代" title="搜索产业、股票或风险关键词" aria-label="搜索产业、股票或风险关键词">
         </div>
 
         <div class="control">
           <label>信息密度</label>
           <div class="segmented" data-setting="density">
-            <button data-value="compact">紧凑</button>
-            <button class="active" data-value="normal">标准</button>
-            <button data-value="detail">详尽</button>
+            <button data-value="compact" title="切换紧凑密度" data-tooltip="紧凑密度">紧凑</button>
+            <button class="active" data-value="normal" title="切换标准密度" data-tooltip="标准密度">标准</button>
+            <button data-value="detail" title="切换详尽密度" data-tooltip="详尽密度">详尽</button>
           </div>
         </div>
 
         <div class="control">
           <label for="depth">研究深度</label>
-          <select id="depth">
+          <select id="depth" title="选择图谱展开深度" aria-label="选择图谱展开深度">
             <option value="2">只看主线</option>
             <option value="3" selected>主线 + 产业</option>
             <option value="4">股票 + 风险</option>
@@ -728,7 +811,7 @@
 
         <div class="control">
           <label for="themeFilter">产业主线</label>
-          <select id="themeFilter">
+          <select id="themeFilter" title="筛选产业主线" aria-label="筛选产业主线">
             <option value="all">全部主线</option>
           </select>
         </div>
@@ -736,15 +819,15 @@
         <div class="switches">
           <div class="toggle">
             <span>纳入A股样本</span>
-            <button id="showStocks" class="active" type="button">开启</button>
+            <button id="showStocks" class="active" type="button" title="显示或隐藏A股样本" data-tooltip="显示或隐藏A股样本">开启</button>
           </div>
           <div class="toggle">
             <span>纳入风险约束</span>
-            <button id="showRisks" class="active" type="button">开启</button>
+            <button id="showRisks" class="active" type="button" title="显示或隐藏风险约束" data-tooltip="显示或隐藏风险约束">开启</button>
           </div>
           <div class="toggle">
             <span>深色主题</span>
-            <button id="darkMode" type="button">关闭</button>
+            <button id="darkMode" type="button" title="切换深色主题" data-tooltip="切换深色主题">关闭</button>
           </div>
         </div>
       </section>
@@ -772,9 +855,9 @@
           <p>以政策主线为第一层，向下拆解产业链受益环节、A股样本池和风险约束，形成可持续跟踪的研究框架。</p>
         </div>
         <div class="toolbar">
-          <button class="utility" id="zoomIn" title="放大" type="button">+</button>
-          <button class="utility" id="zoomOut" title="缩小" type="button">-</button>
-          <button class="utility" id="resetView" title="重置视图" type="button">⌂</button>
+          <button class="utility" id="zoomIn" title="放大" data-tooltip="放大图谱" type="button">+</button>
+          <button class="utility" id="zoomOut" title="缩小" data-tooltip="缩小图谱" type="button">-</button>
+          <button class="utility" id="resetView" title="重置视图" data-tooltip="重置缩放和平移" type="button">⌂</button>
         </div>
       </div>
       <svg class="canvas" id="canvas" role="img" aria-label="十五五产业思维导图"></svg>
@@ -1106,10 +1189,13 @@
       offsetX: 0,
       offsetY: 0,
       dragging: false,
-      dragStart: null
+      dragStart: null,
+      graphBaseX: 0,
+      graphBaseY: 0
     };
 
     const svg = document.getElementById("canvas");
+    let graphLayer = null;
     const emptyState = document.getElementById("emptyState");
     const themeFilter = document.getElementById("themeFilter");
     const themeList = document.getElementById("themeList");
@@ -1142,7 +1228,9 @@
         card.className = "theme-card";
         card.dataset.id = theme.id;
         card.style.setProperty("--theme-color", theme.color);
-        card.innerHTML = `<span class="theme-dot"></span><span>${theme.title}<br><small>${theme.note}</small></span><small>聚焦</small>`;
+        card.title = `聚焦${theme.title}`;
+        card.dataset.tooltip = `聚焦${theme.title}`;
+        card.innerHTML = `<span class="theme-dot"></span><span>${theme.title}<br><small>${theme.note}</small></span>`;
         card.addEventListener("click", () => {
           state.themeFilter = theme.id;
           themeFilter.value = theme.id;
@@ -1208,6 +1296,7 @@
       });
 
       svg.addEventListener("pointerdown", (event) => {
+        if (event.target !== svg || event.button !== 0) return;
         state.dragging = true;
         state.dragStart = { x: event.clientX, y: event.clientY, ox: state.offsetX, oy: state.offsetY };
         svg.setPointerCapture(event.pointerId);
@@ -1217,10 +1306,14 @@
         if (!state.dragging) return;
         state.offsetX = state.dragStart.ox + (event.clientX - state.dragStart.x);
         state.offsetY = state.dragStart.oy + (event.clientY - state.dragStart.y);
-        render();
+        updateGraphTransform();
       });
 
       svg.addEventListener("pointerup", () => {
+        state.dragging = false;
+      });
+
+      svg.addEventListener("lostpointercapture", () => {
         state.dragging = false;
       });
 
@@ -1350,6 +1443,7 @@
     function render() {
       const tree = visibleTree(root);
       svg.innerHTML = "";
+      graphLayer = null;
       updateThemeCards();
 
       if (!tree) {
@@ -1370,11 +1464,12 @@
       const maxX = Math.max(...nodes.map((node) => node.x + node.width / 2));
       const graphW = maxX - minX;
       const graphH = maxY - minY;
-      const startX = Math.max(110, (bounds.width - graphW * state.scale) / 2) + state.offsetX;
-      const startY = Math.max(120, (bounds.height - graphH * state.scale) / 2) + state.offsetY;
+      state.graphBaseX = Math.max(110, (bounds.width - graphW * state.scale) / 2);
+      state.graphBaseY = Math.max(120, (bounds.height - graphH * state.scale) / 2) - minY * state.scale;
 
       const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("transform", `translate(${startX}, ${startY - minY * state.scale}) scale(${state.scale})`);
+      graphLayer = g;
+      updateGraphTransform();
       svg.appendChild(g);
 
       const linkGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -1404,6 +1499,8 @@
 
         const card = document.createElement("div");
         card.className = `node-card ${node.type}`;
+        card.title = `查看${node.title}`;
+        card.dataset.tooltip = `查看${node.title}`;
         if (node.collapsed) card.classList.add("collapsed");
         if (node.id === state.selectedId) card.classList.add("selected");
         if (node.color && node.type !== "root") {
@@ -1416,7 +1513,7 @@
         const toggleSymbol = node.canCollapse ? (node.collapsed ? "+" : "−") : "";
         const childCount = node.canCollapse ? `<span class="node-count">${node.collapsed ? "已收起" : "已展开"} · ${node.childCount}</span>` : "";
         card.innerHTML = `
-          <span class="node-top"><span class="node-kicker">${nodeTypeLabel[node.type] || "投研条目"}</span>${toggleSymbol ? `<span class="node-toggle">${toggleSymbol}</span>` : ""}</span>
+          <span class="node-top"><span class="node-kicker">${nodeTypeLabel[node.type] || "投研条目"}</span>${toggleSymbol ? `<button class="node-toggle" type="button" title="${node.collapsed ? "展开下级内容" : "收起下级内容"}" data-tooltip="${node.collapsed ? "展开下级内容" : "收起下级内容"}" aria-label="${node.collapsed ? "展开下级内容" : "收起下级内容"}">${toggleSymbol}</button>` : ""}</span>
           <span class="node-title">${escapeHtml(node.title)}</span>
           <span class="node-note">${escapeHtml(node.note || "")}</span>
           ${state.density === "detail" ? `<span class="node-tags">${(node.tags || []).slice(0, 2).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</span>` : childCount}
@@ -1427,21 +1524,36 @@
         card.addEventListener("click", (event) => {
           event.stopPropagation();
           state.selectedId = node.id;
-          if (node.canCollapse) {
+          updateInspector(node);
+          render();
+        });
+        const toggle = card.querySelector(".node-toggle");
+        if (toggle) {
+          toggle.addEventListener("pointerdown", (event) => {
+            event.stopPropagation();
+          });
+          toggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            state.selectedId = node.id;
             if (state.collapsedIds.has(node.id)) {
               state.collapsedIds.delete(node.id);
             } else {
               state.collapsedIds.add(node.id);
             }
-          }
-          updateInspector(node);
-          render();
-        });
+            updateInspector(node);
+            render();
+          });
+        }
         foreign.appendChild(card);
         nodeGroup.appendChild(foreign);
       });
 
       updateInspector(nodes.find((node) => node.id === state.selectedId) || tree);
+    }
+
+    function updateGraphTransform() {
+      if (!graphLayer) return;
+      graphLayer.setAttribute("transform", `translate(${state.graphBaseX + state.offsetX}, ${state.graphBaseY + state.offsetY}) scale(${state.scale})`);
     }
 
     function updateThemeCards() {
@@ -1527,6 +1639,8 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "option-button";
+        button.title = title;
+        button.dataset.tooltip = title;
         button.innerHTML = `<span>${title}</span><span>${hint}</span>`;
         button.addEventListener("click", action);
         nodeOptions.appendChild(button);

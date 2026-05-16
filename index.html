@@ -29,6 +29,7 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 104px;
     }
 
     body {
@@ -56,12 +57,18 @@
     }
 
     .top {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 20;
       border-bottom: 1px solid var(--line);
       background: rgba(244, 241, 234, 0.82);
       backdrop-filter: blur(18px);
+    }
+
+    main.shell {
+      padding-top: 96px;
     }
 
     .nav {
@@ -129,6 +136,66 @@
       border: 0;
       color: white;
       background: var(--ink);
+    }
+
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      z-index: 40;
+      width: max-content;
+      max-width: 220px;
+      transform: translate(-50%, 4px);
+      padding: 7px 9px;
+      border-radius: 8px;
+      color: #fff8ea;
+      background: rgba(32, 36, 43, 0.94);
+      box-shadow: 0 12px 26px rgba(32, 36, 43, 0.22);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: center;
+      white-space: normal;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    [data-tooltip]::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 3px);
+      z-index: 41;
+      width: 8px;
+      height: 8px;
+      transform: translate(-50%, 4px) rotate(45deg);
+      background: rgba(32, 36, 43, 0.94);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    [data-tooltip]:hover::after,
+    [data-tooltip]:hover::before,
+    [data-tooltip]:focus-visible::after,
+    [data-tooltip]:focus-visible::before {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .top [data-tooltip]::after {
+      top: calc(100% + 9px);
+      bottom: auto;
+    }
+
+    .top [data-tooltip]::before {
+      top: calc(100% + 3px);
+      bottom: auto;
     }
 
     .hero {
@@ -283,7 +350,7 @@
 
     .section {
       margin: 28px 0;
-      scroll-margin-top: 92px;
+      scroll-margin-top: 104px;
     }
 
     .today-brief {
@@ -723,6 +790,25 @@
       outline: none;
     }
 
+    .table-tools {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) minmax(142px, 0.7fr) minmax(132px, 0.62fr);
+      gap: 8px;
+    }
+
+    .table-tools input,
+    .table-tools select {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 13px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.78);
+      outline: none;
+    }
+
     .chart-options {
       display: flex;
       flex-wrap: wrap;
@@ -858,6 +944,36 @@
       font-weight: 600;
     }
 
+    .sort-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      border: 0;
+      padding: 0;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+      font-weight: inherit;
+    }
+
+    .sort-button::after {
+      content: "↕";
+      color: color-mix(in srgb, var(--muted), transparent 18%);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .sort-button.active.asc::after {
+      content: "↑";
+      color: var(--accent);
+    }
+
+    .sort-button.active.desc::after {
+      content: "↓";
+      color: var(--accent);
+    }
+
     tbody tr {
       cursor: pointer;
     }
@@ -962,6 +1078,14 @@
         padding-top: 18px;
       }
 
+      main.shell {
+        padding-top: 146px;
+      }
+
+      html {
+        scroll-padding-top: 154px;
+      }
+
       .stat-grid,
       .chapter-grid,
       .source-unified,
@@ -1023,13 +1147,17 @@
       .mindmap-frame {
         height: 720px;
       }
+
+      .table-tools {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <header class="top">
     <nav class="shell nav">
-      <div class="brand">
+      <div class="brand" data-tooltip="返回页面顶部">
         <div class="brand-mark">15</div>
         <div>
           <strong>十五五产业地图</strong>
@@ -1037,11 +1165,11 @@
         </div>
       </div>
       <div class="nav-links">
-        <a href="#source">规划原文</a>
-        <a href="#mindmap">思维导图</a>
-        <a href="#today">今日结论</a>
-        <a href="#stocks">股票池走势</a>
-        <a href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer">官方原文</a>
+        <a href="#source" data-tooltip="查看政策依据">规划原文</a>
+        <a href="#mindmap" data-tooltip="跳转到产业思维导图">思维导图</a>
+        <a href="#today" data-tooltip="查看今日结论">今日结论</a>
+        <a href="#stocks" data-tooltip="查看A股股票池走势">股票池走势</a>
+        <a href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer" data-tooltip="在新窗口打开官方原文">官方原文</a>
       </div>
     </nav>
   </header>
@@ -1100,29 +1228,29 @@
         <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
         <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
         <div class="hero-actions">
-          <a class="button primary" href="#mindmap">产业图谱</a>
-          <a class="button" href="#stocks">跟踪股票池</a>
-          <a class="button" href="#source">政策依据</a>
+          <a class="button primary" href="#mindmap" data-tooltip="打开产业图谱区域">产业图谱</a>
+          <a class="button" href="#stocks" data-tooltip="查看股票池跟踪模块">跟踪股票池</a>
+          <a class="button" href="#source" data-tooltip="查看规划依据和要点">政策依据</a>
         </div>
       </div>
       <div class="stat-grid">
         <div class="stat-card" style="--stat-color: #315da8;">
-          <div class="stat-head"><span>宏观底色</span><b class="stat-icon">G</b></div>
+          <div class="stat-head"><span>宏观底色</span><b class="stat-icon" data-tooltip="GDP增长韧性">G</b></div>
           <strong>5.0%</strong>
           <p>2026年一季度GDP同比增速，显示总量仍有韧性。</p>
         </div>
         <div class="stat-card" style="--stat-color: #1d7d73;">
-          <div class="stat-head"><span>制造业景气</span><b class="stat-icon">P</b></div>
+          <div class="stat-head"><span>制造业景气</span><b class="stat-icon" data-tooltip="制造业PMI">P</b></div>
           <strong>50.3</strong>
           <p>2026年4月制造业PMI，位于扩张区间。</p>
         </div>
         <div class="stat-card" style="--stat-color: #b45f39;">
-          <div class="stat-head"><span>股票池</span><b class="stat-icon">A</b></div>
+          <div class="stat-head"><span>股票池</span><b class="stat-icon" data-tooltip="A股观察样本数">A</b></div>
           <strong id="poolCount">--</strong>
           <p>覆盖政策受益链条中的核心A股样本，按产业主线归类。</p>
         </div>
         <div class="stat-card" style="--stat-color: #8a6f24;">
-          <div class="stat-head"><span>图表状态</span><b class="stat-icon">↻</b></div>
+          <div class="stat-head"><span>图表状态</span><b class="stat-icon" data-tooltip="行情加载状态">↻</b></div>
           <strong id="loadState">待加载</strong>
           <p>实时跟踪组合净值、个股涨跌和相对基准表现。</p>
         </div>
@@ -1135,7 +1263,7 @@
           <h2>政策依据与投资要点</h2>
           <p>从规划原文中提炼影响产业配置的关键变量：政策方向、受益链条、需求验证和风险约束，为后续股票池筛选与跟踪提供研究依据。</p>
         </div>
-        <a class="button primary" href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer">官方全文</a>
+        <a class="button primary" href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer" data-tooltip="在新窗口打开政策全文">官方全文</a>
       </div>
       <div class="source-layout">
         <div class="panel article-digest">
@@ -1189,7 +1317,7 @@
           <h2>政策主线与产业映射</h2>
           <p>围绕科技自立、现代化产业体系、数字中国、绿色转型、内需修复和安全韧性，拆解产业链环节、A股样本和主要风险约束。</p>
         </div>
-        <a class="button" href="./fifteenth-five-year-mindmap.html" target="_blank" rel="noreferrer">独立图谱</a>
+        <a class="button" href="./fifteenth-five-year-mindmap.html" target="_blank" rel="noreferrer" data-tooltip="在新窗口打开完整图谱">独立图谱</a>
       </div>
       <iframe class="mindmap-frame" src="./fifteenth-five-year-mindmap.html" title="十五五规划产业思维导图"></iframe>
     </section>
@@ -1210,11 +1338,11 @@
               <div class="risk-line" id="historyStamp">历史序列等待加载。</div>
             </div>
             <div class="controls">
-              <span class="button">起点：2026-03-13</span>
-              <select id="sectorFilter">
+              <span class="button" data-tooltip="所有指数以该日期归一化">起点：2026-03-13</span>
+              <select id="sectorFilter" title="选择组合走势的产业范围" aria-label="选择组合走势的产业范围">
                 <option value="all">全部产业</option>
               </select>
-              <button class="button primary" id="refreshBtn" type="button">更新行情</button>
+              <button class="button primary" id="refreshBtn" type="button" title="更新行情" data-tooltip="重新拉取最新行情和历史走势">更新行情</button>
             </div>
           </div>
           <div class="chart-wrap">
@@ -1256,21 +1384,33 @@
               <strong>统一股票池</strong>
               <div class="risk-line">按产业主线归类，便于比较政策弹性和市场定价。</div>
             </div>
-            <input id="stockSearch" type="search" placeholder="搜索代码/名称">
+            <div class="table-tools">
+              <input id="stockSearch" type="search" placeholder="搜索代码/名称/产业" title="搜索股票代码、名称或产业" aria-label="搜索股票代码、名称或产业">
+              <select id="tableSectorFilter" title="筛选表格产业" aria-label="筛选表格产业">
+                <option value="all">全部产业</option>
+              </select>
+              <select id="moveFilter" title="筛选涨跌状态" aria-label="筛选涨跌状态">
+                <option value="all">全部涨跌</option>
+                <option value="up">上涨</option>
+                <option value="down">下跌</option>
+                <option value="flat">平盘</option>
+                <option value="missing">暂无行情</option>
+              </select>
+            </div>
           </div>
           <div class="stock-table-wrap">
             <table class="stock-table">
               <thead>
                 <tr>
-                  <th>代码</th>
-                  <th>名称</th>
-                  <th>产业</th>
-                  <th>入选逻辑</th>
-                  <th>受益强度</th>
-                  <th>业绩验证</th>
-                  <th>风险标签</th>
-                  <th>最新</th>
-                  <th>涨跌</th>
+                  <th><button class="sort-button" type="button" data-sort="code" title="按代码排序" data-tooltip="按代码排序">代码</button></th>
+                  <th><button class="sort-button" type="button" data-sort="name" title="按名称排序" data-tooltip="按名称排序">名称</button></th>
+                  <th><button class="sort-button" type="button" data-sort="sector" title="按产业排序" data-tooltip="按产业排序">产业</button></th>
+                  <th><button class="sort-button" type="button" data-sort="logic" title="按入选逻辑排序" data-tooltip="按入选逻辑排序">入选逻辑</button></th>
+                  <th><button class="sort-button" type="button" data-sort="benefit" title="按受益强度排序" data-tooltip="按受益强度排序">受益强度</button></th>
+                  <th><button class="sort-button" type="button" data-sort="verify" title="按业绩验证排序" data-tooltip="按业绩验证排序">业绩验证</button></th>
+                  <th><button class="sort-button" type="button" data-sort="risk" title="按风险标签排序" data-tooltip="按风险标签排序">风险标签</button></th>
+                  <th><button class="sort-button" type="button" data-sort="price" title="按最新价排序" data-tooltip="按最新价排序">最新</button></th>
+                  <th><button class="sort-button" type="button" data-sort="pct" title="按涨跌幅排序" data-tooltip="按涨跌幅排序">涨跌</button></th>
                 </tr>
               </thead>
               <tbody id="stockRows"></tbody>
@@ -1450,29 +1590,57 @@
       sectorSelectionTouched: false,
       selected: null,
       sector: "all",
-      query: ""
+      tableSector: "all",
+      move: "all",
+      query: "",
+      sortKey: "code",
+      sortDir: "asc"
     };
 
     document.getElementById("poolCount").textContent = stocks.length;
     document.getElementById("coveredCount").textContent = stocks.length;
 
     const sectorFilter = document.getElementById("sectorFilter");
+    const tableSectorFilter = document.getElementById("tableSectorFilter");
     [...new Set(stocks.map((stock) => stock.sector))].forEach((sector) => {
       const option = document.createElement("option");
       option.value = sector;
       option.textContent = sector;
       sectorFilter.appendChild(option);
+      tableSectorFilter.appendChild(option.cloneNode(true));
     });
 
     sectorFilter.addEventListener("change", (event) => {
       state.sector = event.target.value;
-      renderTable();
       refreshHistory(false);
     });
 
     document.getElementById("stockSearch").addEventListener("input", (event) => {
       state.query = event.target.value.trim().toLowerCase();
       renderTable();
+    });
+
+    tableSectorFilter.addEventListener("change", (event) => {
+      state.tableSector = event.target.value;
+      renderTable();
+    });
+
+    document.getElementById("moveFilter").addEventListener("change", (event) => {
+      state.move = event.target.value;
+      renderTable();
+    });
+
+    document.querySelectorAll(".sort-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.sort;
+        if (state.sortKey === key) {
+          state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+        } else {
+          state.sortKey = key;
+          state.sortDir = key === "price" || key === "pct" ? "desc" : "asc";
+        }
+        renderTable();
+      });
     });
 
     document.getElementById("refreshBtn").addEventListener("click", () => refreshAll());
@@ -1897,7 +2065,7 @@
       container.innerHTML = seriesList.map((series) => {
         const checked = !hiddenSet.has(series.id);
         const disabled = !series.data.length;
-        return `<label class="option-chip" style="--chip-color: ${series.color}; opacity: ${disabled ? 0.45 : 1}">
+        return `<label class="option-chip" style="--chip-color: ${series.color}; opacity: ${disabled ? 0.45 : 1}" title="切换${escapeHtml(series.name)}走势" data-tooltip="切换${escapeHtml(series.name)}走势">
           <input type="checkbox" data-id="${escapeHtml(series.id)}" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""}>
           <span class="option-dot"></span>
           <span>${escapeHtml(series.name)}</span>
@@ -1912,7 +2080,7 @@
       const container = document.getElementById("sectorOptions");
       container.innerHTML = seriesList.map((series) => {
         const checked = state.visibleSectors.has(series.id);
-        return `<label class="option-chip" style="--chip-color: ${series.color}">
+        return `<label class="option-chip" style="--chip-color: ${series.color}" title="切换${escapeHtml(series.name)}主线" data-tooltip="切换${escapeHtml(series.name)}主线">
           <input type="checkbox" data-id="${escapeHtml(series.id)}" ${checked ? "checked" : ""}>
           <span class="option-dot"></span>
           <span>${escapeHtml(series.name)}</span>
@@ -2016,14 +2184,20 @@
     function renderTable() {
       const rows = filteredStocks();
       const tbody = document.getElementById("stockRows");
+      updateSortButtons();
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="9">暂无匹配股票</td></tr>`;
+        renderStats();
+        return;
+      }
       tbody.innerHTML = rows.map((stock) => {
         const quote = state.quoteMap.get(stock.code) || {};
         const pctClass = Number.isFinite(quote.pct) ? quote.pct >= 0 ? "pos" : "neg" : "";
         const active = state.selected && state.selected.code === stock.code ? " class=\"active\"" : "";
-        return `<tr data-code="${stock.code}"${active}>
-          <td>${stock.code}</td>
-          <td>${stock.name}</td>
-          <td><span class="tag">${stock.sector}</span></td>
+        return `<tr data-code="${escapeHtml(stock.code)}"${active}>
+          <td>${escapeHtml(stock.code)}</td>
+          <td>${escapeHtml(stock.name)}</td>
+          <td><span class="tag">${escapeHtml(stock.sector)}</span></td>
           <td class="reason-cell">${escapeHtml(stock.logic)}</td>
           <td><span class="tag">${escapeHtml(stock.benefit)}</span></td>
           <td class="reason-cell">${escapeHtml(stock.verify)}</td>
@@ -2051,12 +2225,54 @@
           drawSectorChart();
         });
       });
+      renderStats();
     }
 
     function filteredStocks() {
-      return currentUniverse().filter((stock) => {
-        if (!state.query) return true;
-        return `${stock.code} ${stock.name} ${stock.sector} ${stock.logic} ${stock.benefit} ${stock.verify} ${stock.riskTags.join(" ")}`.toLowerCase().includes(state.query);
+      return stocks
+        .filter((stock) => {
+          if (state.tableSector !== "all" && stock.sector !== state.tableSector) return false;
+          if (!matchesMoveFilter(stock)) return false;
+          if (!state.query) return true;
+          return `${stock.code} ${stock.name} ${stock.sector} ${stock.logic} ${stock.benefit} ${stock.verify} ${stock.riskTags.join(" ")}`.toLowerCase().includes(state.query);
+        })
+        .sort(compareStocks);
+    }
+
+    function matchesMoveFilter(stock) {
+      if (state.move === "all") return true;
+      const pct = (state.quoteMap.get(stock.code) || {}).pct;
+      if (!Number.isFinite(pct)) return state.move === "missing";
+      if (state.move === "up") return pct > 0;
+      if (state.move === "down") return pct < 0;
+      if (state.move === "flat") return pct === 0;
+      return true;
+    }
+
+    function compareStocks(a, b) {
+      const dir = state.sortDir === "desc" ? -1 : 1;
+      if (state.sortKey === "price" || state.sortKey === "pct") {
+        const av = (state.quoteMap.get(a.code) || {})[state.sortKey];
+        const bv = (state.quoteMap.get(b.code) || {})[state.sortKey];
+        const aMissing = !Number.isFinite(av);
+        const bMissing = !Number.isFinite(bv);
+        if (aMissing && bMissing) return a.code.localeCompare(b.code, "zh-Hans-CN");
+        if (aMissing) return 1;
+        if (bMissing) return -1;
+        return (av - bv) * dir || a.code.localeCompare(b.code, "zh-Hans-CN");
+      }
+      const av = state.sortKey === "risk" ? a.riskTags.join(" ") : a[state.sortKey];
+      const bv = state.sortKey === "risk" ? b.riskTags.join(" ") : b[state.sortKey];
+      return String(av).localeCompare(String(bv), "zh-Hans-CN", { numeric: true }) * dir || a.code.localeCompare(b.code, "zh-Hans-CN");
+    }
+
+    function updateSortButtons() {
+      document.querySelectorAll(".sort-button").forEach((button) => {
+        const active = button.dataset.sort === state.sortKey;
+        button.classList.toggle("active", active);
+        button.classList.toggle("asc", active && state.sortDir === "asc");
+        button.classList.toggle("desc", active && state.sortDir === "desc");
+        button.setAttribute("aria-sort", active ? (state.sortDir === "asc" ? "ascending" : "descending") : "none");
       });
     }
 
