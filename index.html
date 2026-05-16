@@ -443,20 +443,31 @@
     }
 
     .rank-metric {
-      min-width: 78px;
+      min-width: 112px;
       text-align: right;
     }
 
+    .rank-metric div {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      gap: 5px;
+      line-height: 1.25;
+    }
+
+    .rank-metric div + div {
+      margin-top: 5px;
+    }
+
     .rank-metric strong {
-      display: block;
       font-size: 15px;
     }
 
-    .rank-metric span {
-      display: block;
-      margin-top: 4px;
+    .metric-label {
       color: var(--muted);
       font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
     .section-head {
@@ -1071,11 +1082,14 @@
             <p id="rankSummary">等待历史行情加载，按产业组等权指数累计表现排序。</p>
           </div>
           <div class="rank-list" id="sectorRankRows">
-            <div class="rank-row">
-              <span class="rank-no">--</span>
-              <div class="rank-name"><strong>等待行情数据</strong><span>暂无可排序产业组</span></div>
-              <div class="rank-metric"><strong>--</strong><span>累计</span></div>
+          <div class="rank-row">
+            <span class="rank-no">--</span>
+            <div class="rank-name"><strong>等待行情数据</strong><span>暂无可排序产业组</span></div>
+            <div class="rank-metric">
+              <div><span class="metric-label">累计涨幅</span><strong>--</strong></div>
+              <div><span class="metric-label">今日均涨跌</span><strong>--</strong></div>
             </div>
+          </div>
           </div>
         </aside>
       </div>
@@ -1773,7 +1787,10 @@
         rankContainer.innerHTML = `<div class="rank-row">
           <span class="rank-no">--</span>
           <div class="rank-name"><strong>等待行情数据</strong><span>暂无可排序产业组</span></div>
-          <div class="rank-metric"><strong>--</strong><span>累计</span></div>
+          <div class="rank-metric">
+            <div><span class="metric-label">累计涨幅</span><strong>--</strong></div>
+            <div><span class="metric-label">今日均涨跌</span><strong>--</strong></div>
+          </div>
         </div>`;
         return;
       }
@@ -1803,8 +1820,8 @@
           <span>${escapeHtml(row.action)} · ${escapeHtml(row.profile.policyLine || row.sector)} · ${escapeHtml(row.sampleCount)}只样本</span>
         </div>
         <div class="rank-metric">
-          <strong class="${row.totalReturn >= 0 ? "pos" : "neg"}">${fmtPct(row.totalReturn)}</strong>
-          <span>${Number.isFinite(row.dayPct) ? `今日${fmtPct(row.dayPct)}` : "今日--"}</span>
+          <div><span class="metric-label">累计涨幅</span><strong class="${row.totalReturn >= 0 ? "pos" : "neg"}">${fmtPct(row.totalReturn)}</strong></div>
+          <div><span class="metric-label">今日均涨跌</span><strong class="${Number.isFinite(row.dayPct) && row.dayPct >= 0 ? "pos" : "neg"}">${Number.isFinite(row.dayPct) ? fmtPct(row.dayPct) : "--"}</strong></div>
         </div>
       </div>`).join("");
     }
