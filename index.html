@@ -1015,69 +1015,301 @@
     }
 
     .mindmap-console {
-      display: grid;
-      grid-template-columns: 300px minmax(0, 1fr);
-      gap: 0;
       overflow: hidden;
       border: 1px solid rgba(24, 32, 43, 0.1);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       box-shadow: var(--shadow);
     }
 
-    .map-brief {
-      display: grid;
-      align-content: start;
-      gap: 14px;
+    .policy-map-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
       padding: 22px;
-      border-right: 1px solid var(--line);
-      background: #18202b;
-      color: #f9faf7;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(15, 118, 110, 0.08), transparent 45%),
+        #ffffff;
     }
 
-    .map-brief small {
-      color: rgba(249, 250, 247, 0.58);
+    .policy-map-head small {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--accent);
       font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
     }
 
-    .map-brief h3 {
+    .policy-map-head h3 {
       margin: 0;
-      color: #fffaf0;
-      font-size: 24px;
+      color: var(--ink);
+      font-size: clamp(22px, 2.4vw, 30px);
       line-height: 1.25;
     }
 
-    .map-brief p {
-      margin: 0;
-      color: rgba(249, 250, 247, 0.7);
+    .policy-map-head p {
+      max-width: 820px;
+      margin: 9px 0 0;
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.7;
     }
 
-    .map-metric {
-      display: grid;
+    .policy-map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
       gap: 8px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.13);
+      min-width: 250px;
     }
 
-    .map-metric span {
+    .map-stat,
+    .map-control {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .map-control {
+      cursor: pointer;
+    }
+
+    .map-control.primary {
+      border-color: transparent;
+      color: #fffaf0;
+      background: #18202b;
+    }
+
+    .policy-map-body {
+      position: relative;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 22px;
+      padding: 24px;
+      background:
+        linear-gradient(90deg, rgba(24, 32, 43, 0.04) 1px, transparent 1px),
+        linear-gradient(rgba(24, 32, 43, 0.04) 1px, transparent 1px),
+        #f8faf7;
+      background-size: 62px 62px, 62px 62px, auto;
+    }
+
+    .policy-root {
+      position: sticky;
+      top: 94px;
+      align-self: start;
+      border: 1px solid rgba(24, 32, 43, 0.12);
+      border-radius: 12px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(15, 118, 110, 0.08), transparent 52%),
+        #ffffff;
+      color: var(--ink);
+      box-shadow: 0 16px 34px rgba(24, 32, 43, 0.08);
+    }
+
+    .policy-root small {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .policy-root strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 23px;
+      line-height: 1.25;
+    }
+
+    .policy-root p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .policy-root-flow {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .policy-root-flow span {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      color: rgba(249, 250, 247, 0.7);
+      color: var(--muted);
       font-size: 12px;
     }
 
-    .map-metric b {
-      color: #f7c867;
+    .policy-root-flow b {
+      color: var(--accent);
     }
 
-    .mindmap-frame {
-      height: min(900px, 88vh);
-      min-height: 760px;
-      border-radius: 0;
-      box-shadow: none;
+    .policy-theme-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .policy-theme {
+      position: relative;
+      border: 1px solid rgba(24, 32, 43, 0.1);
+      border-left: 5px solid var(--theme-color, var(--accent));
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.93);
+      box-shadow: 0 16px 34px rgba(24, 32, 43, 0.07);
+    }
+
+    .policy-theme::before {
+      content: "";
+      position: absolute;
+      left: -29px;
+      top: 34px;
+      width: 24px;
+      height: 1px;
+      background: color-mix(in srgb, var(--theme-color, var(--accent)) 42%, rgba(24, 32, 43, 0.12));
+    }
+
+    .policy-theme-button {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      min-height: 78px;
+      border: 0;
+      padding: 14px 16px;
+      color: var(--ink);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .policy-toggle {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      color: white;
+      background: var(--theme-color, var(--accent));
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .policy-theme-title {
+      display: block;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .policy-theme-note {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .policy-theme-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .policy-theme-meta span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border-radius: 8px;
+      padding: 0 8px;
+      color: color-mix(in srgb, var(--theme-color, var(--accent)) 76%, #18202b);
+      background: color-mix(in srgb, var(--theme-color, var(--accent)) 11%, #ffffff);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .policy-detail {
+      display: none;
+      padding: 0 16px 16px 69px;
+    }
+
+    .policy-theme.expanded .policy-detail {
+      display: block;
+    }
+
+    .policy-industry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .policy-industry {
+      min-width: 0;
+      border: 1px solid rgba(24, 32, 43, 0.1);
+      border-radius: 10px;
+      padding: 12px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--theme-color, var(--accent)) 7%, transparent), transparent 42%),
+        #ffffff;
+    }
+
+    .policy-industry strong {
+      display: block;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .policy-industry p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .policy-stock-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .policy-stock-row span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-radius: 8px;
+      padding: 5px 7px;
+      color: #34434f;
+      background: #edf3f1;
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .policy-risk {
+      margin-top: 10px;
+      padding-top: 9px;
+      border-top: 1px dashed rgba(24, 32, 43, 0.14);
+      color: #7a4a3b;
+      font-size: 11px;
+      line-height: 1.55;
     }
 
     .stock-layout {
@@ -1109,13 +1341,20 @@
       .hero,
       .source-unified,
       .stock-layout,
-      .mindmap-console {
+      .policy-map-body {
         grid-template-columns: 1fr;
       }
 
-      .map-brief {
-        border-right: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      .policy-root {
+        position: static;
+      }
+
+      .policy-theme::before {
+        display: none;
+      }
+
+      .policy-industry-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -1136,8 +1375,31 @@
         min-height: 160px;
       }
 
-      .mindmap-frame {
-        min-height: 700px;
+      .policy-map-head,
+      .policy-theme-button {
+        grid-template-columns: 1fr;
+      }
+
+      .policy-map-head {
+        display: grid;
+      }
+
+      .policy-map-actions,
+      .policy-theme-meta {
+        justify-content: flex-start;
+        min-width: 0;
+      }
+
+      .policy-map-body {
+        padding: 14px;
+      }
+
+      .policy-detail {
+        padding: 0 12px 14px 12px;
+      }
+
+      .policy-industry-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1262,23 +1524,37 @@
       <div class="section-head">
         <div>
           <h2>政策主线与产业映射</h2>
-          <p>围绕科技自立、现代化产业体系、数字中国、绿色转型、内需修复和安全韧性，拆解产业链环节、A股样本和主要风险约束。</p>
+          <p>用稳定的投研矩阵替代漂移画布：点击主线即可在原位置展开产业链环节、A股样本和风险约束，避免遮挡并提升阅读效率。</p>
         </div>
         <a class="button" href="./fifteenth-five-year-mindmap.html" target="_blank" rel="noreferrer">独立图谱</a>
       </div>
       <div class="mindmap-console">
-        <aside class="map-brief">
-          <small>POLICY TO PORTFOLIO</small>
-          <h3>一张图看清主线、产业和样本股</h3>
-          <p>默认先呈现政策主线，主线节点可展开到产业链、股票样本和风险约束，减少信息拥挤。</p>
-          <div class="map-metric">
-            <span>政策主线 <b>7 条</b></span>
-            <span>产业主题 <b>25 个</b></span>
-            <span>A股样本 <b id="mapStockCount">--</b></span>
-            <span>风险层级 <b>可展开</b></span>
+        <div class="policy-map-head">
+          <div>
+            <small>POLICY TO PORTFOLIO MATRIX</small>
+            <h3>十五五产业投资图谱</h3>
+            <p>从政策主线出发，向右拆解到产业主题、观察样本和风险约束。该图谱使用固定布局，不会因为展开节点而发生漂移。</p>
           </div>
-        </aside>
-        <iframe class="mindmap-frame" src="./fifteenth-five-year-mindmap.html" title="十五五规划产业思维导图"></iframe>
+          <div class="policy-map-actions">
+            <span class="map-stat">主线 7 条</span>
+            <span class="map-stat">A股 <b id="mapStockCount">--</b></span>
+            <button class="map-control primary" id="expandPolicyMap" type="button">展开全部</button>
+            <button class="map-control" id="collapsePolicyMap" type="button">收起全部</button>
+          </div>
+        </div>
+        <div class="policy-map-body">
+          <aside class="policy-root">
+            <small>ROOT</small>
+            <strong>政策主线到A股样本池</strong>
+            <p>阅读顺序固定为政策方向、产业兑现、样本观察、风险过滤，避免用单个主题热度代替系统判断。</p>
+            <div class="policy-root-flow">
+              <span>政策方向 <b>战略确定性</b></span>
+              <span>产业兑现 <b>订单与现金流</b></span>
+              <span>市场验证 <b>相对收益</b></span>
+            </div>
+          </aside>
+          <div class="policy-theme-list" id="policyMapThemes"></div>
+        </div>
       </div>
     </section>
 
@@ -1412,6 +1688,82 @@
       { code: "000688", name: "科创50", secid: "1.000688", sina: "sh000688", color: "#a64545" }
     ];
     const sectorColors = ["#1d7d73", "#315da8", "#b45f39", "#8a6f24", "#7b5fb2", "#137b51", "#a64545", "#2f7f9f", "#8b6f4e", "#4b6f44", "#a0577b", "#64748b"];
+    const policyMapThemes = [
+      {
+        title: "宏观底色",
+        note: "总量韧性、结构分化、价格再平衡",
+        color: "#6f7786",
+        industries: [
+          { title: "结构性复苏", note: "制造强、服务分化、地产弱", stocks: ["招商银行", "中国平安", "中信证券"], risk: "关注宽信用效果、居民预期和地产链拖累。" },
+          { title: "价格再平衡", note: "PPI回升改善上游现金流", stocks: ["紫金矿业", "中国神华", "万华化学"], risk: "大宗价格过快上涨会压制中下游利润。" }
+        ]
+      },
+      {
+        title: "科技自立自强",
+        note: "AI、芯片、软件和高端装备",
+        color: "#315da8",
+        industries: [
+          { title: "AI算力与国产芯片", note: "算力底座和国产替代", stocks: ["海光信息", "中科曙光", "浪潮信息"], risk: "订单兑现、供应限制和价格竞争。" },
+          { title: "基础软件与工业软件", note: "信创、办公、工业控制", stocks: ["金山办公", "宝信软件", "中控技术"], risk: "客户预算推迟和利润短期承压。" },
+          { title: "工业母机与关键设备", note: "高端制造补短板", stocks: ["汇川技术", "海天精工", "纽威数控"], risk: "制造业资本开支低于预期。" }
+        ]
+      },
+      {
+        title: "现代化产业体系",
+        note: "先进制造、新能源车、机器人、新材料",
+        color: "#1d7d73",
+        industries: [
+          { title: "新能源、储能与电网", note: "新型能源体系核心", stocks: ["宁德时代", "阳光电源", "国电南瑞"], risk: "价格竞争、海外壁垒和并网消纳压力。" },
+          { title: "智能网联新能源汽车", note: "车电智能化和出口链", stocks: ["比亚迪", "德赛西威", "拓普集团"], risk: "整车降价、关税和法规节奏。" },
+          { title: "机器人与具身智能", note: "自动化向智能化延伸", stocks: ["汇川技术", "埃斯顿", "绿的谐波"], risk: "主题热度先行，量产成本仍需验证。" },
+          { title: "新材料与战略矿产", note: "资源安全和材料升级", stocks: ["紫金矿业", "北方稀土", "西部超导"], risk: "商品价格、环保约束和供给扩张。" }
+        ]
+      },
+      {
+        title: "数字中国",
+        note: "算力、数据、AI+、网络安全",
+        color: "#7b5fb2",
+        industries: [
+          { title: "算力网络与数据要素", note: "数字基础设施", stocks: ["中兴通讯", "紫光股份", "科大讯飞"], risk: "算力利用率和地方项目回款。" },
+          { title: "AI+政务、工业、金融", note: "应用场景落地", stocks: ["金山办公", "海康威视", "恒生电子"], risk: "付费意愿、模型同质化和合规要求。" },
+          { title: "网络安全与信创", note: "安全底座", stocks: ["深信服", "奇安信", "中国软件"], risk: "财政预算约束和行业竞争。" }
+        ]
+      },
+      {
+        title: "绿色转型",
+        note: "碳双控、绿电、环保和资源循环",
+        color: "#8a6f24",
+        industries: [
+          { title: "新型电力系统", note: "电网智能化和特高压", stocks: ["国电南瑞", "许继电气", "平高电气"], risk: "电网投资节奏和原材料成本波动。" },
+          { title: "绿电与核电", note: "稳定低碳电源", stocks: ["中国核电", "三峡能源", "川投能源"], risk: "电价市场化、审批和来水波动。" },
+          { title: "环保与碳管理", note: "运营现金流和减排服务", stocks: ["伟明环保", "瀚蓝环境", "高能环境"], risk: "地方支付能力和项目回款。" }
+        ]
+      },
+      {
+        title: "扩大内需与民生",
+        note: "消费、服务、健康、银发经济",
+        color: "#b45f39",
+        industries: [
+          { title: "消费升级与国货品牌", note: "品牌、渠道和更新需求", stocks: ["贵州茅台", "美的集团", "海尔智家"], risk: "高端消费疲弱和渠道库存。" },
+          { title: "服务消费与文旅", note: "商旅文体健融合", stocks: ["中国中免", "锦江酒店", "宋城演艺"], risk: "居民可选消费恢复慢和供给增加。" },
+          { title: "健康中国与银发经济", note: "医疗、养老和慢病管理", stocks: ["恒瑞医药", "迈瑞医疗", "爱尔眼科"], risk: "集采、医保支付和研发失败。" }
+        ]
+      },
+      {
+        title: "安全与韧性",
+        note: "粮食、基建、海洋、金融安全",
+        color: "#a44545",
+        industries: [
+          { title: "粮食安全与农业现代化", note: "种业、农机、养殖和饲料", stocks: ["北大荒", "隆平高科", "一拖股份"], risk: "农产品周期、疫病和种业商业化周期。" },
+          { title: "交通水利与城市更新", note: "稳投资和韧性城市", stocks: ["中国交建", "中国中铁", "中国电建"], risk: "地方财政、回款周期和低毛利项目。" },
+          { title: "海洋经济与高端船舶", note: "船舶、海工和航运", stocks: ["中国船舶", "中船防务", "招商轮船"], risk: "造船周期、原材料成本和贸易波动。" },
+          { title: "金融强国与资本市场", note: "银行、保险、券商", stocks: ["招商银行", "中国平安", "中信证券"], risk: "净息差、权益波动和信用风险。" }
+        ]
+      }
+    ];
+    const policyMapState = {
+      expanded: new Set([1, 2])
+    };
 
     const state = {
       quoteMap: new Map(),
@@ -1431,6 +1783,15 @@
     document.getElementById("poolCount").textContent = stocks.length;
     document.getElementById("coveredCount").textContent = stocks.length;
     document.getElementById("mapStockCount").textContent = `${stocks.length} 只`;
+    renderPolicyMap();
+    document.getElementById("expandPolicyMap").addEventListener("click", () => {
+      policyMapState.expanded = new Set(policyMapThemes.map((_, index) => index));
+      renderPolicyMap();
+    });
+    document.getElementById("collapsePolicyMap").addEventListener("click", () => {
+      policyMapState.expanded.clear();
+      renderPolicyMap();
+    });
 
     const sectorFilter = document.getElementById("sectorFilter");
     [...new Set(stocks.map((stock) => stock.sector))].forEach((sector) => {
@@ -1452,6 +1813,48 @@
     });
 
     document.getElementById("refreshBtn").addEventListener("click", () => refreshAll());
+
+    function renderPolicyMap() {
+      const container = document.getElementById("policyMapThemes");
+      container.innerHTML = policyMapThemes.map((theme, index) => {
+        const expanded = policyMapState.expanded.has(index);
+        const stockCount = theme.industries.reduce((sum, item) => sum + item.stocks.length, 0);
+        return `<article class="policy-theme ${expanded ? "expanded" : ""}" style="--theme-color: ${theme.color};">
+          <button class="policy-theme-button" type="button" data-theme-index="${index}" aria-expanded="${expanded}">
+            <span class="policy-toggle">${expanded ? "−" : "+"}</span>
+            <span>
+              <span class="policy-theme-title">${escapeHtml(theme.title)}</span>
+              <span class="policy-theme-note">${escapeHtml(theme.note)}</span>
+            </span>
+            <span class="policy-theme-meta">
+              <span>${theme.industries.length} 个产业</span>
+              <span>${stockCount} 个样本</span>
+            </span>
+          </button>
+          <div class="policy-detail">
+            <div class="policy-industry-grid">
+              ${theme.industries.map((industry) => `<article class="policy-industry">
+                <strong>${escapeHtml(industry.title)}</strong>
+                <p>${escapeHtml(industry.note)}</p>
+                <div class="policy-stock-row">${industry.stocks.map((stock) => `<span>${escapeHtml(stock)}</span>`).join("")}</div>
+                <div class="policy-risk">风险：${escapeHtml(industry.risk)}</div>
+              </article>`).join("")}
+            </div>
+          </div>
+        </article>`;
+      }).join("");
+      container.querySelectorAll(".policy-theme-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.themeIndex);
+          if (policyMapState.expanded.has(index)) {
+            policyMapState.expanded.delete(index);
+          } else {
+            policyMapState.expanded.add(index);
+          }
+          renderPolicyMap();
+        });
+      });
+    }
 
     function jsonp(url) {
       return new Promise((resolve, reject) => {
