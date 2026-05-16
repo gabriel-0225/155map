@@ -24,6 +24,8 @@ Remove-Item "C:\path\to\file.txt"
 
 后续每次修改本项目文件后，默认执行本地检查并提交到 Git，作为本地保存点。
 
+每次保存 Git 时，提交信息必须用中文说明本次修改；在 `git log --oneline` 中，提交编号后面的修改说明要用中文表达。
+
 默认不自动推送 GitHub、不自动部署 Netlify。
 
 ## 发布要求
