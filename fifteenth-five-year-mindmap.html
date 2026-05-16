@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>“十五五”产业思维导图</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f4ef;
+      --panel: rgba(255, 255, 255, 0.9);
+      --panel-strong: #ffffff;
+      --ink: #20242c;
+      --muted: #687180;
+      --line: rgba(55, 61, 75, 0.18);
+      --shadow: 0 22px 60px rgba(46, 43, 36, 0.14);
+      --accent: #1d7d73;
+      --accent-2: #b45f39;
+      --accent-3: #315da8;
+      --accent-4: #8a6f24;
+      --danger: #a44545;
+      --node-root: #20242c;
+      --node-root-text: #fff8ea;
+      --node-theme: #ffffff;
+      --node-industry: #fffdfa;
+      --node-stock: #eef7f4;
+      --node-risk: #fff0ed;
+      --focus: #f7c85a;
+      --chip: #ede7da;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --bg: #14171d;
+      --panel: rgba(27, 31, 39, 0.92);
+      --panel-strong: #20252f;
+      --ink: #f3efe5;
+      --muted: #aab2c0;
+      --line: rgba(233, 226, 212, 0.2);
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.38);
+      --node-root: #f1d38b;
+      --node-root-text: #15181f;
+      --node-theme: #20252f;
+      --node-industry: #242a35;
+      --node-stock: #18332f;
+      --node-risk: #3b2426;
+      --chip: #303642;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 22% 12%, rgba(29, 125, 115, 0.14), transparent 28rem),
+        radial-gradient(circle at 92% 8%, rgba(180, 95, 57, 0.13), transparent 25rem),
+        linear-gradient(135deg, var(--bg), color-mix(in srgb, var(--bg), #fff 10%));
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 336px minmax(0, 1fr) 344px;
+      min-height: 100vh;
+    }
+
+    .side,
+    .inspector {
+      position: relative;
+      z-index: 3;
+      min-height: 100vh;
+      padding: 22px;
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      border-color: var(--line);
+      overflow: auto;
+    }
+
+    .side {
+      border-right: 1px solid var(--line);
+    }
+
+    .inspector {
+      border-left: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      color: white;
+      font-weight: 800;
+      letter-spacing: 0;
+      box-shadow: 0 14px 30px rgba(29, 125, 115, 0.28);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .section {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section h2 {
+      margin-bottom: 12px;
+      font-size: 13px;
+      letter-spacing: 0;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .control {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .control label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .control input[type="search"],
+    .control select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 11px;
+      color: var(--ink);
+      background: var(--panel-strong);
+      outline: none;
+    }
+
+    .control input:focus,
+    .control select:focus {
+      border-color: color-mix(in srgb, var(--accent), white 20%);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent), transparent 78%);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 4px;
+      border-radius: 12px;
+      background: var(--chip);
+    }
+
+    .segmented button,
+    .toggle button,
+    .utility {
+      border: 0;
+      border-radius: 9px;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .segmented button {
+      min-height: 32px;
+      font-size: 12px;
+    }
+
+    .segmented button.active,
+    .toggle button.active {
+      color: var(--node-root-text);
+      background: var(--node-root);
+      box-shadow: 0 9px 22px rgba(0, 0, 0, 0.14);
+    }
+
+    .switches {
+      display: grid;
+      gap: 8px;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 42px;
+      padding: 6px 6px 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-strong);
+    }
+
+    .toggle span {
+      font-size: 13px;
+    }
+
+    .toggle button {
+      min-width: 54px;
+      min-height: 30px;
+      padding: 0 10px;
+      background: var(--chip);
+      font-size: 12px;
+    }
+
+    .theme-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .theme-card {
+      display: grid;
+      grid-template-columns: 16px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: var(--panel-strong);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .theme-card.active {
+      border-color: color-mix(in srgb, var(--accent), white 10%);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent), transparent 55%);
+    }
+
+    .theme-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--theme-color);
+    }
+
+    .theme-card small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .topbar {
+      position: absolute;
+      inset: 18px 18px auto 18px;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .hero-title {
+      max-width: 620px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-title h2 {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .hero-title p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .utility {
+      display: grid;
+      place-items: center;
+      min-width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .canvas {
+      width: 100%;
+      height: 100vh;
+      display: block;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .canvas:active {
+      cursor: grabbing;
+    }
+
+    .link {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 2;
+      stroke-linecap: round;
+      opacity: 0.86;
+    }
+
+    .node-foreign {
+      overflow: visible;
+    }
+
+    .node-card {
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--node-accent, var(--accent));
+      border-radius: 14px;
+      padding: 11px 13px;
+      background: var(--node-theme);
+      color: var(--ink);
+      box-shadow: 0 16px 36px rgba(30, 32, 38, 0.13);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+      cursor: pointer;
+    }
+
+    .node-card:hover,
+    .node-card.selected {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--focus), var(--accent) 20%);
+      box-shadow: 0 18px 42px rgba(30, 32, 38, 0.2);
+    }
+
+    .node-card.root {
+      background: linear-gradient(135deg, var(--node-root), color-mix(in srgb, var(--node-root), #000 12%));
+      color: var(--node-root-text);
+      border: 0;
+    }
+
+    .node-card.collapsed {
+      background: color-mix(in srgb, var(--node-theme), var(--chip) 26%);
+      box-shadow: 0 10px 26px rgba(30, 32, 38, 0.1);
+    }
+
+    .node-card.industry {
+      background: var(--node-industry);
+    }
+
+    .node-card.stock {
+      background: var(--node-stock);
+      border-style: dashed;
+    }
+
+    .node-card.risk {
+      background: var(--node-risk);
+      border-style: dashed;
+    }
+
+    .node-kicker {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .node-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .node-toggle {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      color: var(--node-root-text);
+      background: var(--node-accent, var(--accent));
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 8px 18px color-mix(in srgb, var(--node-accent, var(--accent)) 28%, transparent);
+    }
+
+    .node-card.root .node-kicker {
+      color: rgba(255, 248, 234, 0.72);
+    }
+
+    .node-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .node-note {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .node-card.root .node-note {
+      color: rgba(255, 248, 234, 0.76);
+    }
+
+    .node-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .node-count {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      height: 19px;
+      padding: 0 7px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--chip), transparent 10%);
+      font-size: 10px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .inspector-header {
+      min-height: 132px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--node-root), color-mix(in srgb, var(--node-root), #000 18%));
+      color: var(--node-root-text);
+      box-shadow: var(--shadow);
+    }
+
+    .inspector-header small {
+      color: rgba(255, 248, 234, 0.72);
+      font-size: 12px;
+    }
+
+    .inspector-header h2 {
+      margin-top: 10px;
+      font-size: 21px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .meta span {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+      font-size: 11px;
+    }
+
+    .detail-block {
+      margin-top: 18px;
+    }
+
+    .detail-block h3 {
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .detail-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel-strong);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .stock-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stock {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: var(--chip);
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .option-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: var(--ink);
+      background: var(--panel-strong);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .option-button span:first-child {
+      font-size: 13px;
+    }
+
+    .option-button span:last-child {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+    }
+
+    .empty-state {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 4;
+      display: none;
+      width: min(420px, 80%);
+      transform: translate(-50%, -50%);
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-state h2 {
+      font-size: 18px;
+    }
+
+    .empty-state p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1180px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        grid-template-columns: 300px minmax(0, 1fr);
+      }
+
+      .inspector {
+        grid-column: 1 / -1;
+        min-height: auto;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .canvas {
+        height: 720px;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        display: block;
+      }
+
+      .side,
+      .inspector {
+        min-height: auto;
+      }
+
+      .topbar {
+        position: static;
+        padding: 14px;
+        background: var(--panel);
+      }
+
+      .toolbar {
+        flex-shrink: 0;
+      }
+
+      .canvas {
+        height: 620px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="side">
+      <div class="brand">
+        <div class="mark">15</div>
+        <div>
+          <h1>“十五五”产业投资图谱</h1>
+          <p class="subtitle">按政策强度、产业链受益环节、A股样本和风险约束分层评估。</p>
+        </div>
+      </div>
+
+      <section class="section">
+        <h2>投研筛选</h2>
+        <div class="control">
+          <label for="search">产业/股票检索</label>
+          <input id="search" type="search" placeholder="例如：AI、储能、宁德时代">
+        </div>
+
+        <div class="control">
+          <label>信息密度</label>
+          <div class="segmented" data-setting="density">
+            <button data-value="compact">紧凑</button>
+            <button class="active" data-value="normal">标准</button>
+            <button data-value="detail">详尽</button>
+          </div>
+        </div>
+
+        <div class="control">
+          <label for="depth">研究深度</label>
+          <select id="depth">
+            <option value="2">只看主线</option>
+            <option value="3" selected>主线 + 产业</option>
+            <option value="4">股票 + 风险</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="themeFilter">产业主线</label>
+          <select id="themeFilter">
+            <option value="all">全部主线</option>
+          </select>
+        </div>
+
+        <div class="switches">
+          <div class="toggle">
+            <span>纳入A股样本</span>
+            <button id="showStocks" class="active" type="button">开启</button>
+          </div>
+          <div class="toggle">
+            <span>纳入风险约束</span>
+            <button id="showRisks" class="active" type="button">开启</button>
+          </div>
+          <div class="toggle">
+            <span>深色主题</span>
+            <button id="darkMode" type="button">关闭</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>政策主线</h2>
+        <div class="theme-list" id="themeList"></div>
+      </section>
+
+      <section class="section">
+        <h2>图例</h2>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-swatch" style="background: var(--node-root)"></span>总纲</div>
+          <div class="legend-item"><span class="legend-swatch" style="background: var(--node-theme)"></span>主线</div>
+          <div class="legend-item"><span class="legend-swatch" style="background: var(--node-industry)"></span>产业</div>
+          <div class="legend-item"><span class="legend-swatch" style="background: var(--node-stock)"></span>股票</div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="canvas-wrap">
+      <div class="topbar">
+        <div class="hero-title">
+          <h2>政策主线到A股样本池</h2>
+          <p>以政策主线为第一层，向下拆解产业链受益环节、A股样本池和风险约束，形成可持续跟踪的研究框架。</p>
+        </div>
+        <div class="toolbar">
+          <button class="utility" id="zoomIn" title="放大" type="button">+</button>
+          <button class="utility" id="zoomOut" title="缩小" type="button">-</button>
+          <button class="utility" id="resetView" title="重置视图" type="button">⌂</button>
+        </div>
+      </div>
+      <svg class="canvas" id="canvas" role="img" aria-label="十五五产业思维导图"></svg>
+      <div class="empty-state" id="emptyState">
+        <h2>暂无匹配结果</h2>
+        <p>当前筛选条件下暂无匹配的产业、股票或风险项。</p>
+      </div>
+    </section>
+
+    <aside class="inspector">
+      <div class="inspector-header">
+        <small id="detailType">总纲</small>
+        <h2 id="detailTitle">十五五产业投资地图</h2>
+        <div class="meta" id="detailMeta"></div>
+      </div>
+
+      <section class="detail-block">
+        <h3>投资逻辑</h3>
+        <div class="detail-card" id="detailSummary"></div>
+      </section>
+
+      <section class="detail-block" id="stockBlock">
+        <h3>A股观察池</h3>
+        <div class="stock-list" id="detailStocks"></div>
+      </section>
+
+      <section class="detail-block">
+        <h3>研究动作</h3>
+        <div class="option-list" id="nodeOptions"></div>
+      </section>
+
+      <section class="detail-block">
+        <h3>风险约束</h3>
+        <div class="detail-card" id="detailRisk"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const themes = [
+      {
+        id: "macro",
+        title: "宏观底色",
+        note: "总量有韧性，结构分化加大",
+        color: "#6f7786",
+        summary: "2026年一季度GDP同比增长5.0%，4月制造业PMI为50.3%，制造业仍在扩张区间；CPI温和，PPI回升，上游价格对中下游利润的传导需要观察。",
+        risk: "房地产、建筑链、地方债和外需波动仍会影响总需求。",
+        industries: [
+          {
+            title: "结构性复苏",
+            note: "制造强、服务分化、地产弱",
+            stocks: ["招商银行 600036", "中国平安 601318", "中信证券 600030"],
+            summary: "金融、消费和制造之间的景气差异扩大，配置思路应避免只看总量指标。",
+            risk: "宽信用效果低于预期、居民预期修复慢。"
+          },
+          {
+            title: "价格再平衡",
+            note: "PPI回升改善上游现金流",
+            stocks: ["紫金矿业 601899", "中国神华 601088", "万华化学 600309"],
+            summary: "上游资源品和化工价格修复，有助于部分周期龙头利润改善，但也可能挤压制造业成本。",
+            risk: "大宗商品价格过快上涨会压制中下游利润率。"
+          }
+        ]
+      },
+      {
+        id: "tech",
+        title: "科技自立自强",
+        note: "AI、芯片、软件和高端装备",
+        color: "#315da8",
+        summary: "规划强调关键核心技术攻关、企业科技创新主体地位和教育科技人才一体发展。投资线索集中在国产替代、算力基础设施和工业自主可控。",
+        risk: "技术迭代快、资本开支周期波动大，估值容易先于业绩透支。",
+        industries: [
+          {
+            title: "AI算力与国产芯片",
+            note: "算力底座和国产替代",
+            stocks: ["海光信息 688041", "中科曙光 603019", "浪潮信息 000977", "中际旭创 300308", "新易盛 300502"],
+            summary: "AI大模型、政企智能化和国产服务器需求共同拉动算力链，重点看芯片、服务器、光模块和液冷配套。",
+            risk: "海外供应限制、订单兑现节奏和价格竞争。"
+          },
+          {
+            title: "基础软件与工业软件",
+            note: "信创、办公、工业控制",
+            stocks: ["金山办公 688111", "宝信软件 600845", "中控技术 688777", "用友网络 600588"],
+            summary: "数据要素、政企数字化和制造业升级推动软件国产化，优先看客户黏性强、现金流稳定的龙头。",
+            risk: "客户预算推迟、SaaS转型利润短期承压。"
+          },
+          {
+            title: "工业母机与关键设备",
+            note: "高端制造补短板",
+            stocks: ["汇川技术 300124", "海天精工 601882", "纽威数控 688697", "华中数控 300161"],
+            summary: "高端数控机床、伺服系统、工业控制是先进制造的基础，受益于制造业技改和设备更新。",
+            risk: "制造业资本开支下降、进口替代进度不及预期。"
+          }
+        ]
+      },
+      {
+        id: "industry",
+        title: "现代化产业体系",
+        note: "先进制造、新能源车、机器人、新材料",
+        color: "#1d7d73",
+        summary: "纲要提出建设以先进制造业为骨干的现代化产业体系，传统产业要数智化、绿色化，新兴产业要规模化，未来产业要前瞻布局。",
+        risk: "部分行业存在产能扩张和价格内卷，需区分份额提升和利润兑现。",
+        industries: [
+          {
+            title: "新能源、储能与电网",
+            note: "新型能源体系核心",
+            stocks: ["宁德时代 300750", "阳光电源 300274", "国电南瑞 600406", "特变电工 600089", "东方电缆 603606"],
+            summary: "新能源装机、储能消纳和电网智能化构成长期需求。电网侧和储能逆变器相对更看重订单和现金流质量。",
+            risk: "电池价格竞争、海外贸易壁垒和并网消纳压力。"
+          },
+          {
+            title: "智能网联新能源汽车",
+            note: "车电智能化和出口链",
+            stocks: ["比亚迪 002594", "德赛西威 002920", "拓普集团 601689", "伯特利 603596", "星宇股份 601799"],
+            summary: "汽车电动化进入成熟竞争阶段，智能驾驶、域控、热管理和轻量化零部件是增量更明确的环节。",
+            risk: "整车降价、海外关税、智能驾驶法规节奏。"
+          },
+          {
+            title: "机器人与具身智能",
+            note: "自动化向智能化延伸",
+            stocks: ["汇川技术 300124", "埃斯顿 002747", "绿的谐波 688017", "双环传动 002472"],
+            summary: "制造业降本、人口结构变化和AI模型进步共同推动机器人产业，但商业化路径仍需订单验证。",
+            risk: "短期主题热度高，量产成本和应用场景仍是关键。"
+          },
+          {
+            title: "新材料与战略矿产",
+            note: "资源安全和材料升级",
+            stocks: ["紫金矿业 601899", "北方稀土 600111", "中国稀土 000831", "西部超导 688122", "万华化学 600309"],
+            summary: "稀土、有色、钛合金、化工新材料等关系新能源、航空航天、半导体和高端制造安全。",
+            risk: "商品价格波动、环保约束和供给扩张。"
+          }
+        ]
+      },
+      {
+        id: "digital",
+        title: "数字中国",
+        note: "算力、数据、AI+、网络安全",
+        color: "#7b5fb2",
+        summary: "规划强调算力、算法、数据高效供给，并推动数智技术赋能政务、产业、社会治理。数据要素和AI应用是横向平台型机会。",
+        risk: "数据确权、定价和收益分配仍在完善，商业模式需要持续验证。",
+        industries: [
+          {
+            title: "算力网络与数据要素",
+            note: "数字基础设施",
+            stocks: ["中兴通讯 000063", "紫光股份 000938", "科大讯飞 002230", "易华录 300212"],
+            summary: "算力中心、云网融合和数据流通机制是数字中国底层能力，关注政企订单和运营效率。",
+            risk: "算力利用率不足、地方项目回款周期长。"
+          },
+          {
+            title: "AI+政务、工业、金融",
+            note: "应用场景落地",
+            stocks: ["金山办公 688111", "海康威视 002415", "同花顺 300033", "恒生电子 600570"],
+            summary: "AI应用从通用工具向行业流程嵌入，办公、安防、金融IT和工业质检具备场景优势。",
+            risk: "模型同质化、客户付费意愿和监管合规。"
+          },
+          {
+            title: "网络安全与信创",
+            note: "安全底座",
+            stocks: ["深信服 300454", "奇安信 688561", "中国软件 600536"],
+            summary: "数据跨境、政企上云和AI治理提高安全要求，信创从硬件替代转向软件生态和安全体系建设。",
+            risk: "财政预算约束、行业竞争激烈。"
+          }
+        ]
+      },
+      {
+        id: "green",
+        title: "绿色转型",
+        note: "碳双控、绿电、环保和资源循环",
+        color: "#8a6f24",
+        summary: "纲要要求积极稳妥推进碳达峰，推动产业、能源和交通结构优化。绿色转型机会集中在新型电力系统、核电、环保运营和节能服务。",
+        risk: "项目收益率、补贴机制和电价机制会影响行业估值中枢。",
+        industries: [
+          {
+            title: "新型电力系统",
+            note: "电网智能化和特高压",
+            stocks: ["国电南瑞 600406", "许继电气 000400", "平高电气 600312", "特变电工 600089"],
+            summary: "高比例新能源接入需要更强的调度、输变电、储能和配网能力，电网设备订单可见度较高。",
+            risk: "电网投资节奏和原材料成本波动。"
+          },
+          {
+            title: "绿电与核电",
+            note: "稳定低碳电源",
+            stocks: ["中国核电 601985", "三峡能源 600905", "川投能源 600674"],
+            summary: "核电和水风光电源在碳达峰框架下具备长期配置价值，重点看装机增长和利用小时。",
+            risk: "电价市场化、项目审批和来水波动。"
+          },
+          {
+            title: "环保与碳管理",
+            note: "运营现金流和减排服务",
+            stocks: ["伟明环保 603568", "瀚蓝环境 600323", "高能环境 603588", "南网能源 003035"],
+            summary: "垃圾焚烧、水务、固废处理和节能服务从建设期转向运营期，稳定现金流是核心。",
+            risk: "地方支付能力、项目回款和政策价格机制。"
+          }
+        ]
+      },
+      {
+        id: "demand",
+        title: "扩大内需与民生",
+        note: "消费、服务、健康、银发经济",
+        color: "#b45f39",
+        summary: "规划把扩大内需作为战略基点，强调提振消费、发展服务消费、健康消费和银发经济。消费链更适合用现金流和品牌壁垒筛选。",
+        risk: "居民收入预期、资产价格和就业压力决定消费修复斜率。",
+        industries: [
+          {
+            title: "消费升级与国货品牌",
+            note: "品牌、渠道和更新需求",
+            stocks: ["贵州茅台 600519", "美的集团 000333", "海尔智家 600690", "珀莱雅 603605", "格力电器 000651"],
+            summary: "商品消费从数量扩张转向品质和更新，强品牌、强渠道、强现金流公司更具抗波动能力。",
+            risk: "高端消费疲弱、渠道库存和价格体系松动。"
+          },
+          {
+            title: "服务消费与文旅",
+            note: "商旅文体健融合",
+            stocks: ["中国中免 601888", "锦江酒店 600754", "宋城演艺 300144", "首旅酒店 600258", "上海机场 600009"],
+            summary: "文旅、演艺、酒店和免税受益于服务消费扩容，核心看客流、客单价和运营杠杆。",
+            risk: "居民可选消费恢复慢、出境分流和行业供给增加。"
+          },
+          {
+            title: "健康中国与银发经济",
+            note: "医疗、养老和慢病管理",
+            stocks: ["恒瑞医药 600276", "迈瑞医疗 300760", "爱尔眼科 300015", "泰格医药 300347"],
+            summary: "老龄化提高医疗服务、器械、创新药和康复护理需求，长期空间明确但医保控费约束仍在。",
+            risk: "集采降价、医保支付约束和研发失败。"
+          }
+        ]
+      },
+      {
+        id: "security",
+        title: "安全与韧性",
+        note: "粮食、基建、海洋、金融安全",
+        color: "#a44545",
+        summary: "统筹发展和安全是规划底层逻辑，产业链供应链安全、粮食安全、能源安全、基础设施韧性和金融安全共同构成底线资产。",
+        risk: "安全主题容易受到政策和事件驱动，需重视真实订单、ROE和现金流。",
+        industries: [
+          {
+            title: "粮食安全与农业现代化",
+            note: "种业、农机、养殖和饲料",
+            stocks: ["北大荒 600598", "隆平高科 000998", "荃银高科 300087", "海大集团 002311", "一拖股份 601038"],
+            summary: "粮食产能、种源自主、农机升级和规模养殖共同支撑农业现代化。",
+            risk: "农产品价格周期、疫病和种业商业化周期。"
+          },
+          {
+            title: "交通水利与城市更新",
+            note: "稳投资和韧性城市",
+            stocks: ["中国交建 601800", "中国中铁 601390", "中国铁建 601186", "中国电建 601669", "伟星新材 002372"],
+            summary: "基建从大规模新建转向补短板、城市更新、水利和地下管网，现金流质量比收入规模更重要。",
+            risk: "地方财政约束、回款周期和低毛利项目。"
+          },
+          {
+            title: "海洋经济与高端船舶",
+            note: "船舶、海工和航运",
+            stocks: ["中国船舶 600150", "中船防务 600685", "招商轮船 601872", "中远海控 601919", "海油工程 600583"],
+            summary: "高端船舶、海工装备、航运和海洋能源构成海洋强国主线，订单周期和运价周期共同驱动。",
+            risk: "造船周期反转、原材料成本和全球贸易波动。"
+          },
+          {
+            title: "金融强国与资本市场",
+            note: "银行、保险、券商",
+            stocks: ["招商银行 600036", "中国平安 601318", "中国太保 601601", "中信证券 600030", "东方财富 300059"],
+            summary: "资本市场改革、长期资金入市和养老金融支持金融机构转型，优先看资产质量和财富管理能力。",
+            risk: "净息差下行、权益市场波动和信用风险暴露。"
+          }
+        ]
+      }
+    ];
+
+    const root = {
+      id: "root",
+      title: "十五五产业投资地图",
+      type: "root",
+      note: "政策主线 × 当前经济 × A股观察池",
+      summary: "这张图把“十五五”纲要中的产业方向转化为可研究的产业主题。优先级不是追热点，而是从国家战略、需求兑现、竞争格局和财务质量四个维度交叉筛选。",
+      risk: "股票仅为产业观察池，不构成投资建议。实际决策需结合估值、财报、仓位和个人风险承受能力。",
+      tags: ["实体经济", "新质生产力", "扩大内需", "安全韧性"],
+      children: themes.map((theme) => ({
+        id: theme.id,
+        title: theme.title,
+        type: "theme",
+        note: theme.note,
+        summary: theme.summary,
+        risk: theme.risk,
+        color: theme.color,
+        tags: ["政策主线", "一级主线"],
+        children: theme.industries.map((industry, index) => ({
+          id: `${theme.id}-${index}`,
+          title: industry.title,
+          type: "industry",
+          note: industry.note,
+          summary: industry.summary,
+          risk: industry.risk,
+          color: theme.color,
+          stocks: industry.stocks,
+          tags: ["产业主题", `${industry.stocks.length}只观察股`],
+          children: [
+            {
+              id: `${theme.id}-${index}-stocks`,
+              title: "A股观察池",
+              type: "stock",
+              note: industry.stocks.join(" · "),
+              summary: `相关标的：${industry.stocks.join("、")}。`,
+              risk: "观察池不等同于买入清单，需继续核对估值、业绩和资金面。",
+              stocks: industry.stocks,
+              tags: ["可筛选", "股票样本"]
+            },
+            {
+              id: `${theme.id}-${index}-risk`,
+              title: "主要风险",
+              type: "risk",
+              note: industry.risk,
+              summary: industry.risk,
+              risk: industry.risk,
+              tags: ["风险约束"]
+            }
+          ]
+        }))
+      }))
+    };
+
+    const state = {
+      density: "normal",
+      depth: 3,
+      themeFilter: "all",
+      showStocks: true,
+      showRisks: true,
+      search: "",
+      collapsedIds: new Set(themes.map((theme) => theme.id)),
+      selectedId: "root",
+      scale: 1,
+      offsetX: 0,
+      offsetY: 0,
+      dragging: false,
+      dragStart: null
+    };
+
+    const svg = document.getElementById("canvas");
+    const emptyState = document.getElementById("emptyState");
+    const themeFilter = document.getElementById("themeFilter");
+    const themeList = document.getElementById("themeList");
+    const detailType = document.getElementById("detailType");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailMeta = document.getElementById("detailMeta");
+    const detailSummary = document.getElementById("detailSummary");
+    const detailStocks = document.getElementById("detailStocks");
+    const detailRisk = document.getElementById("detailRisk");
+    const stockBlock = document.getElementById("stockBlock");
+    const nodeOptions = document.getElementById("nodeOptions");
+
+    const nodeTypeLabel = {
+      root: "总纲",
+      theme: "政策主线",
+      industry: "产业主题",
+      stock: "A股观察池",
+      risk: "风险约束"
+    };
+
+    function initControls() {
+      themes.forEach((theme) => {
+        const option = document.createElement("option");
+        option.value = theme.id;
+        option.textContent = theme.title;
+        themeFilter.appendChild(option);
+
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "theme-card";
+        card.dataset.id = theme.id;
+        card.style.setProperty("--theme-color", theme.color);
+        card.innerHTML = `<span class="theme-dot"></span><span>${theme.title}<br><small>${theme.note}</small></span><small>聚焦</small>`;
+        card.addEventListener("click", () => {
+          state.themeFilter = theme.id;
+          themeFilter.value = theme.id;
+          state.selectedId = theme.id;
+          state.collapsedIds.delete(theme.id);
+          render();
+        });
+        themeList.appendChild(card);
+      });
+
+      document.querySelectorAll("[data-setting='density'] button").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-setting='density'] button").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          state.density = button.dataset.value;
+          render();
+        });
+      });
+
+      document.getElementById("depth").addEventListener("change", (event) => {
+        state.depth = Number(event.target.value);
+        if (state.depth >= 4) expandSelectedPath();
+        render();
+      });
+
+      themeFilter.addEventListener("change", (event) => {
+        state.themeFilter = event.target.value;
+        if (event.target.value !== "all") state.collapsedIds.delete(event.target.value);
+        render();
+      });
+
+      document.getElementById("search").addEventListener("input", (event) => {
+        state.search = event.target.value.trim().toLowerCase();
+        render();
+      });
+
+      bindToggle("showStocks", "showStocks");
+      bindToggle("showRisks", "showRisks");
+
+      document.getElementById("darkMode").addEventListener("click", (event) => {
+        document.body.classList.toggle("dark");
+        const active = document.body.classList.contains("dark");
+        event.currentTarget.classList.toggle("active", active);
+        event.currentTarget.textContent = active ? "开启" : "关闭";
+        render();
+      });
+
+      document.getElementById("zoomIn").addEventListener("click", () => {
+        state.scale = Math.min(1.55, state.scale + 0.12);
+        render();
+      });
+
+      document.getElementById("zoomOut").addEventListener("click", () => {
+        state.scale = Math.max(0.55, state.scale - 0.12);
+        render();
+      });
+
+      document.getElementById("resetView").addEventListener("click", () => {
+        state.scale = 1;
+        state.offsetX = 0;
+        state.offsetY = 0;
+        render();
+      });
+
+      svg.addEventListener("pointerdown", (event) => {
+        state.dragging = true;
+        state.dragStart = { x: event.clientX, y: event.clientY, ox: state.offsetX, oy: state.offsetY };
+        svg.setPointerCapture(event.pointerId);
+      });
+
+      svg.addEventListener("pointermove", (event) => {
+        if (!state.dragging) return;
+        state.offsetX = state.dragStart.ox + (event.clientX - state.dragStart.x);
+        state.offsetY = state.dragStart.oy + (event.clientY - state.dragStart.y);
+        render();
+      });
+
+      svg.addEventListener("pointerup", () => {
+        state.dragging = false;
+      });
+
+      window.addEventListener("resize", render);
+    }
+
+    function bindToggle(id, key) {
+      document.getElementById(id).addEventListener("click", (event) => {
+        state[key] = !state[key];
+        event.currentTarget.classList.toggle("active", state[key]);
+        event.currentTarget.textContent = state[key] ? "开启" : "关闭";
+        render();
+      });
+    }
+
+    function originalNodeById(id, node = root) {
+      if (node.id === id) return node;
+      for (const child of node.children || []) {
+        const found = originalNodeById(id, child);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function hasEligibleChildren(node, depth) {
+      if (!node.children || depth >= state.depth) return false;
+      return node.children.some((child) => {
+        if (state.themeFilter !== "all" && depth + 1 === 2 && child.id !== state.themeFilter) return false;
+        if (child.type === "stock" && !state.showStocks) return false;
+        if (child.type === "risk" && !state.showRisks) return false;
+        return true;
+      });
+    }
+
+    function expandSelectedPath() {
+      const path = [];
+      function walk(node, trail) {
+        if (node.id === state.selectedId) {
+          path.push(...trail);
+          return true;
+        }
+        return (node.children || []).some((child) => walk(child, [...trail, node.id]));
+      }
+      walk(root, []);
+      path.forEach((id) => state.collapsedIds.delete(id));
+    }
+
+    function visibleTree(node, depth = 1) {
+      if (state.themeFilter !== "all" && depth === 2 && node.id !== state.themeFilter) {
+        return null;
+      }
+
+      if (depth > state.depth) return null;
+      if (node.type === "stock" && !state.showStocks) return null;
+      if (node.type === "risk" && !state.showRisks) return null;
+
+      const canCollapse = node.type !== "root" && hasEligibleChildren(node, depth);
+      const isCollapsed = canCollapse && state.collapsedIds.has(node.id) && !state.search;
+      const cloned = {
+        ...node,
+        children: [],
+        canCollapse,
+        collapsed: isCollapsed,
+        childCount: (node.children || []).length
+      };
+      if (node.children && depth < state.depth && !isCollapsed) {
+        cloned.children = node.children
+          .map((child) => visibleTree(child, depth + 1))
+          .filter(Boolean);
+      }
+
+      if (!state.search) return cloned;
+      const ownText = `${node.title} ${node.note || ""} ${node.summary || ""} ${(node.stocks || []).join(" ")}`.toLowerCase();
+      const matched = ownText.includes(state.search);
+      if (matched || cloned.children.length > 0) {
+        cloned.matched = matched;
+        return cloned;
+      }
+      return null;
+    }
+
+    function layout(tree) {
+      const rows = [];
+      const widthMap = { compact: 150, normal: 190, detail: 238 };
+      const heightMap = { compact: 72, normal: 88, detail: 112 };
+      const xGapMap = { compact: 220, normal: 280, detail: 340 };
+      const yGapMap = { compact: 20, normal: 28, detail: 34 };
+      const nodeWidth = widthMap[state.density];
+      const nodeHeight = heightMap[state.density];
+      const xGap = xGapMap[state.density];
+      const yGap = yGapMap[state.density];
+
+      function walk(node, depth = 0, parent = null) {
+        const item = {
+          ...node,
+          depth,
+          parent,
+          width: depth === 0 ? nodeWidth + 42 : nodeWidth,
+          height: depth <= 1 ? nodeHeight + 8 : nodeHeight,
+          x: depth * xGap,
+          y: 0
+        };
+        rows.push(item);
+        item.children = (node.children || []).map((child) => walk(child, depth + 1, item));
+        return item;
+      }
+
+      const laidRoot = walk(tree);
+      let cursor = 0;
+
+      function assignY(node) {
+        if (!node.children.length) {
+          node.y = cursor;
+          cursor += node.height + yGap;
+        } else {
+          node.children.forEach(assignY);
+          const first = node.children[0];
+          const last = node.children[node.children.length - 1];
+          node.y = (first.y + last.y) / 2;
+        }
+      }
+
+      assignY(laidRoot);
+      return { root: laidRoot, nodes: rows, nodeWidth, nodeHeight };
+    }
+
+    function render() {
+      const tree = visibleTree(root);
+      svg.innerHTML = "";
+      updateThemeCards();
+
+      if (!tree) {
+        emptyState.classList.add("show");
+        return;
+      }
+      emptyState.classList.remove("show");
+
+      const { nodes } = layout(tree);
+      if (!nodes.find((node) => node.id === state.selectedId)) {
+        state.selectedId = tree.id;
+      }
+
+      const bounds = svg.getBoundingClientRect();
+      const minY = Math.min(...nodes.map((node) => node.y - node.height / 2));
+      const maxY = Math.max(...nodes.map((node) => node.y + node.height / 2));
+      const minX = Math.min(...nodes.map((node) => node.x - node.width / 2));
+      const maxX = Math.max(...nodes.map((node) => node.x + node.width / 2));
+      const graphW = maxX - minX;
+      const graphH = maxY - minY;
+      const startX = Math.max(110, (bounds.width - graphW * state.scale) / 2) + state.offsetX;
+      const startY = Math.max(120, (bounds.height - graphH * state.scale) / 2) + state.offsetY;
+
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("transform", `translate(${startX}, ${startY - minY * state.scale}) scale(${state.scale})`);
+      svg.appendChild(g);
+
+      const linkGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      const nodeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.appendChild(linkGroup);
+      g.appendChild(nodeGroup);
+
+      nodes.forEach((node) => {
+        if (!node.parent) return;
+        const start = { x: node.parent.x + node.parent.width / 2, y: node.parent.y };
+        const end = { x: node.x - node.width / 2, y: node.y };
+        const elbow = start.x + Math.max(38, (end.x - start.x) * 0.45);
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("class", "link");
+        path.setAttribute("d", `M ${start.x} ${start.y} C ${elbow} ${start.y}, ${elbow} ${end.y}, ${end.x} ${end.y}`);
+        if (node.color) path.setAttribute("stroke", colorMix(node.color, getComputedStyle(document.body).getPropertyValue("--line"), 0.38));
+        linkGroup.appendChild(path);
+      });
+
+      nodes.forEach((node) => {
+        const foreign = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+        foreign.setAttribute("class", "node-foreign");
+        foreign.setAttribute("x", node.x - node.width / 2);
+        foreign.setAttribute("y", node.y - node.height / 2);
+        foreign.setAttribute("width", node.width);
+        foreign.setAttribute("height", node.height + 8);
+
+        const card = document.createElement("div");
+        card.className = `node-card ${node.type}`;
+        if (node.collapsed) card.classList.add("collapsed");
+        if (node.id === state.selectedId) card.classList.add("selected");
+        if (node.color && node.type !== "root") {
+          card.style.borderColor = colorMix(node.color, "#ffffff", 0.58);
+          card.style.setProperty("--node-accent", node.color);
+        }
+        if (node.type === "root") {
+          card.style.setProperty("--node-accent", "var(--node-root)");
+        }
+        const toggleSymbol = node.canCollapse ? (node.collapsed ? "+" : "−") : "";
+        const childCount = node.canCollapse ? `<span class="node-count">${node.collapsed ? "已收起" : "已展开"} · ${node.childCount}</span>` : "";
+        card.innerHTML = `
+          <span class="node-top"><span class="node-kicker">${nodeTypeLabel[node.type] || "投研条目"}</span>${toggleSymbol ? `<span class="node-toggle">${toggleSymbol}</span>` : ""}</span>
+          <span class="node-title">${escapeHtml(node.title)}</span>
+          <span class="node-note">${escapeHtml(node.note || "")}</span>
+          ${state.density === "detail" ? `<span class="node-tags">${(node.tags || []).slice(0, 2).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</span>` : childCount}
+        `;
+        card.addEventListener("pointerdown", (event) => {
+          event.stopPropagation();
+        });
+        card.addEventListener("click", (event) => {
+          event.stopPropagation();
+          state.selectedId = node.id;
+          if (node.canCollapse) {
+            if (state.collapsedIds.has(node.id)) {
+              state.collapsedIds.delete(node.id);
+            } else {
+              state.collapsedIds.add(node.id);
+            }
+          }
+          updateInspector(node);
+          render();
+        });
+        foreign.appendChild(card);
+        nodeGroup.appendChild(foreign);
+      });
+
+      updateInspector(nodes.find((node) => node.id === state.selectedId) || tree);
+    }
+
+    function updateThemeCards() {
+      document.querySelectorAll(".theme-card").forEach((card) => {
+        card.classList.toggle("active", card.dataset.id === state.themeFilter);
+      });
+    }
+
+    function updateInspector(node) {
+      detailType.textContent = nodeTypeLabel[node.type] || "投研条目";
+      detailTitle.textContent = node.title;
+      detailMeta.innerHTML = "";
+      (node.tags || []).forEach((tag) => {
+        const span = document.createElement("span");
+        span.textContent = tag;
+        detailMeta.appendChild(span);
+      });
+      if (node.color) {
+        const span = document.createElement("span");
+        span.textContent = "主线色";
+        span.style.background = node.color;
+        span.style.color = "#fff";
+        detailMeta.appendChild(span);
+      }
+      detailSummary.textContent = node.summary || node.note || "选择产业主题后呈现完整投研逻辑。";
+      detailRisk.textContent = node.risk || "暂无单独风险约束。";
+
+      const stocks = node.stocks || collectStocks(node);
+      stockBlock.style.display = stocks.length ? "block" : "none";
+      detailStocks.innerHTML = stocks.map((stock) => `<span class="stock">${escapeHtml(stock)}</span>`).join("");
+
+      nodeOptions.innerHTML = "";
+      const options = [];
+      const original = originalNodeById(node.id);
+      if (node.type !== "root" && original && original.children && original.children.length) {
+        options.push([state.collapsedIds.has(node.id) ? "展开下级主题" : "收起下级主题", "层级", () => {
+          if (state.collapsedIds.has(node.id)) {
+            state.collapsedIds.delete(node.id);
+          } else {
+            state.collapsedIds.add(node.id);
+          }
+          render();
+        }]);
+      }
+      if (node.type === "theme") {
+        options.push(["聚焦这条主线", "筛选", () => {
+          state.themeFilter = node.id;
+          themeFilter.value = node.id;
+          state.collapsedIds.delete(node.id);
+          render();
+        }]);
+        options.push(["纳入股票与风险", "深度", () => {
+          state.depth = 4;
+          document.getElementById("depth").value = "4";
+          state.collapsedIds.delete(node.id);
+          render();
+        }]);
+      }
+      if (node.type === "industry") {
+        options.push(["聚焦该产业", "检索", () => {
+          document.getElementById("search").value = node.title;
+          state.search = node.title.toLowerCase();
+          render();
+        }]);
+        options.push(["剔除风险约束", "简化", () => {
+          state.showRisks = false;
+          const button = document.getElementById("showRisks");
+          button.classList.remove("active");
+          button.textContent = "关闭";
+          render();
+        }]);
+      }
+      options.push(["恢复全部主线", "重置", () => {
+        state.themeFilter = "all";
+        themeFilter.value = "all";
+        document.getElementById("search").value = "";
+        state.search = "";
+        state.collapsedIds = new Set(themes.map((theme) => theme.id));
+        render();
+      }]);
+
+      options.forEach(([title, hint, action]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option-button";
+        button.innerHTML = `<span>${title}</span><span>${hint}</span>`;
+        button.addEventListener("click", action);
+        nodeOptions.appendChild(button);
+      });
+    }
+
+    function collectStocks(node) {
+      const stocks = new Set();
+      function walk(item) {
+        (item.stocks || []).forEach((stock) => stocks.add(stock));
+        (item.children || []).forEach(walk);
+      }
+      walk(node);
+      return [...stocks].slice(0, 18);
+    }
+
+    function colorMix(color, fallback, weight) {
+      if (!color || !color.startsWith("#")) return fallback;
+      const hex = color.replace("#", "");
+      const bigint = parseInt(hex, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${weight})`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    initControls();
+    render();
+  </script>
+</body>
+</html>

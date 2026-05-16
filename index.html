@@ -1,0 +1,1571 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>十五五规划产业地图与A股股票池跟踪</title>
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --ink: #20242b;
+      --muted: #697382;
+      --panel: rgba(255, 255, 255, 0.9);
+      --card: #fffdf8;
+      --line: rgba(37, 42, 52, 0.14);
+      --accent: #1d7d73;
+      --blue: #315da8;
+      --warm: #b45f39;
+      --gold: #9a7624;
+      --red: #a64545;
+      --green: #137b51;
+      --shadow: 0 24px 70px rgba(42, 39, 32, 0.14);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 6%, rgba(29, 125, 115, 0.15), transparent 32rem),
+        radial-gradient(circle at 92% 0%, rgba(180, 95, 57, 0.13), transparent 30rem),
+        linear-gradient(135deg, var(--bg), #faf8f1);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1500px, calc(100vw - 44px));
+      margin: 0 auto;
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 241, 234, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--blue));
+      box-shadow: 0 16px 34px rgba(29, 125, 115, 0.24);
+      font-weight: 800;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 14px;
+      text-decoration: none;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .button.primary {
+      border: 0;
+      color: white;
+      background: var(--ink);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: 24px;
+      padding: 36px 0 22px;
+    }
+
+    .hero-panel {
+      min-height: 292px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(24px, 4vw, 42px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 252, 244, 0.74));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      right: -110px;
+      bottom: -120px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: conic-gradient(from 150deg, rgba(29, 125, 115, 0.22), rgba(49, 93, 168, 0.2), rgba(180, 95, 57, 0.18), rgba(29, 125, 115, 0.22));
+      filter: blur(2px);
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(34px, 5vw, 66px);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.78;
+    }
+
+    .hero-actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 138px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 252, 244, 0.76)),
+        var(--panel);
+      box-shadow: 0 18px 44px rgba(38, 40, 47, 0.12);
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: var(--stat-color, var(--accent));
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--stat-color, var(--accent)) 18%, transparent);
+    }
+
+    .stat-head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .stat-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      color: white;
+      background: var(--stat-color, var(--accent));
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 12px 24px color-mix(in srgb, var(--stat-color, var(--accent)) 26%, transparent);
+    }
+
+    .stat-card span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: color-mix(in srgb, var(--stat-color, var(--accent)) 70%, #1f2430);
+      background: color-mix(in srgb, var(--stat-color, var(--accent)) 12%, #ffffff);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .stat-card strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-top: 18px;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .stat-card p {
+      position: relative;
+      z-index: 1;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.62;
+    }
+
+    .section {
+      margin: 28px 0;
+      scroll-margin-top: 92px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 680px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .source-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel.pad {
+      padding: 18px;
+    }
+
+    .source-note {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f1eadc;
+      color: #594b35;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .source-unified {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 0.78fr);
+      gap: 18px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .chapter {
+      min-height: 96px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 13px;
+      background: var(--card);
+    }
+
+    .chapter small {
+      color: var(--muted);
+    }
+
+    .chapter strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .chapter p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .article-frame {
+      width: 100%;
+      height: 620px;
+      border: 0;
+      background: white;
+    }
+
+    .frame-fallback {
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .article-digest {
+      padding: 22px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 238, 0.86)),
+        var(--card);
+    }
+
+    .article-digest h3 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+
+    .article-digest .digest-lead {
+      max-width: 980px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .article-digest .official-title {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #f1eadc;
+      color: #594b35;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .digest-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .digest-meta span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: #eee7da;
+      font-size: 12px;
+    }
+
+    .key-list {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .key-list li {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .key-list b {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      color: white;
+      background: var(--accent);
+      font-size: 13px;
+    }
+
+    .key-list strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .key-list p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .block-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+
+    .mindmap-frame {
+      width: 100%;
+      height: min(880px, 86vh);
+      min-height: 720px;
+      border: 0;
+      border-radius: 24px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .stock-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.42fr) minmax(360px, 0.58fr);
+      gap: 18px;
+    }
+
+    .stock-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .controls select,
+    .controls input {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 13px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.78);
+      outline: none;
+    }
+
+    .chart-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .option-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 11px 0 9px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .option-chip input {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--chip-color, var(--accent));
+    }
+
+    .option-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--chip-color, var(--accent));
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--chip-color, var(--accent)) 16%, transparent);
+    }
+
+    .chart-wrap {
+      padding: 18px;
+    }
+
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .chart-title h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .chart-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    svg.chart {
+      width: 100%;
+      height: 350px;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background:
+        linear-gradient(rgba(32, 36, 43, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(32, 36, 43, 0.045) 1px, transparent 1px),
+        #fffdf8;
+      background-size: 100% 25%, 12.5% 100%, auto;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini-card {
+      min-height: 76px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: var(--card);
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .table-panel {
+      max-height: 748px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .stock-table-wrap {
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      padding: 10px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.96);
+      font-weight: 600;
+    }
+
+    tbody tr {
+      cursor: pointer;
+    }
+
+    tbody tr:hover,
+    tbody tr.active {
+      background: rgba(29, 125, 115, 0.08);
+    }
+
+    .pos {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .neg {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: #eee7da;
+      font-size: 11px;
+    }
+
+    .risk-line {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .footer {
+      padding: 30px 0 46px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1160px) {
+      .hero,
+      .source-layout,
+      .source-unified,
+      .stock-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .article-frame {
+        height: 560px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 24px, 1500px);
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .stat-grid,
+      .chapter-grid,
+      .source-unified,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mindmap-frame {
+        height: 720px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <nav class="shell nav">
+      <div class="brand">
+        <div class="brand-mark">15</div>
+        <div>
+          <strong>十五五产业地图</strong>
+          <span>政策解读 · 产业映射 · A股相对收益</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#source">规划原文</a>
+        <a href="#mindmap">思维导图</a>
+        <a href="#stocks">股票池走势</a>
+        <a href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer">官方原文</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-panel">
+        <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
+        <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#mindmap">产业图谱</a>
+          <a class="button" href="#stocks">跟踪股票池</a>
+          <a class="button" href="#source">政策依据</a>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card" style="--stat-color: #315da8;">
+          <div class="stat-head"><span>宏观底色</span><b class="stat-icon">G</b></div>
+          <strong>5.0%</strong>
+          <p>2026年一季度GDP同比增速，显示总量仍有韧性。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #1d7d73;">
+          <div class="stat-head"><span>制造业景气</span><b class="stat-icon">P</b></div>
+          <strong>50.3</strong>
+          <p>2026年4月制造业PMI，位于扩张区间。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #b45f39;">
+          <div class="stat-head"><span>股票池</span><b class="stat-icon">A</b></div>
+          <strong id="poolCount">--</strong>
+          <p>覆盖政策受益链条中的核心A股样本，按产业主线归类。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #8a6f24;">
+          <div class="stat-head"><span>图表状态</span><b class="stat-icon">↻</b></div>
+          <strong id="loadState">待加载</strong>
+          <p>实时跟踪组合净值、个股涨跌和相对基准表现。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="source">
+      <div class="section-head">
+        <div>
+          <h2>政策依据与投资要点</h2>
+          <p>从规划原文中提炼影响产业配置的关键变量：政策方向、受益链条、需求验证和风险约束，为后续股票池筛选与跟踪提供研究依据。</p>
+        </div>
+        <a class="button primary" href="https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml" target="_blank" rel="noreferrer">官方全文</a>
+      </div>
+      <div class="source-layout">
+        <div class="panel article-digest">
+          <h3>“十五五”规划纲要：政策要点与投资线索</h3>
+          <div class="official-title">中华人民共和国国民经济和社会发展第十五个五年规划纲要</div>
+          <div class="digest-meta">
+            <span>发布：2026-03-13</span>
+            <span>来源：人民政协网 / 新华网</span>
+            <span>官方原文</span>
+          </div>
+          <p class="digest-lead">围绕产业配置提炼政策信号：先判断政策强度和落地方向，再映射至产业链环节、上市公司样本、景气验证指标和潜在风险。</p>
+          <div class="source-unified">
+            <div>
+              <div class="block-title">投资要点 <span>政策信号</span></div>
+              <ul class="key-list">
+                <li><b>01</b><div><strong>“十五五”是承前启后的关键五年</strong><p>文件把2026-2030年定位为基本实现社会主义现代化进程中的夯基期和突破期，要求在重大任务上取得实质进展。</p></div></li>
+                <li><b>02</b><div><strong>发展主线是高质量发展</strong><p>核心方法是以新发展理念引领新质生产力，统筹扩大内需和供给侧改革，做强国内大循环并畅通双循环。</p></div></li>
+                <li><b>03</b><div><strong>实体经济和先进制造是产业底座</strong><p>产业体系建设强调制造强国、质量强国、网络强国等方向，先进制造业是现代化产业体系的骨干。</p></div></li>
+                <li><b>04</b><div><strong>科技自立自强是新质生产力引擎</strong><p>规划强调原始创新、关键核心技术、企业创新主体地位和教育科技人才一体发展，研发投入强度继续提升。</p></div></li>
+                <li><b>05</b><div><strong>数字中国从基础设施走向全面赋能</strong><p>重点从算力、算法、数据供给延伸到工业、政务、金融、社会治理等场景，AI应用进入产业落地阶段。</p></div></li>
+                <li><b>06</b><div><strong>扩大内需是战略基点</strong><p>消费端强调商品消费、服务消费和民生消费，投资端强调有效投资、城市更新、基础设施和全国统一大市场。</p></div></li>
+                <li><b>07</b><div><strong>绿色转型进入硬约束阶段</strong><p>目标包括如期实现碳达峰、单位GDP二氧化碳排放降低17%、建设清洁低碳安全高效的新型能源体系。</p></div></li>
+                <li><b>08</b><div><strong>安全和韧性成为产业选择底线</strong><p>粮食、能源、产业链供应链、金融、公共安全和国防现代化共同构成底线逻辑，也是股票池筛选的重要约束。</p></div></li>
+              </ul>
+            </div>
+            <div>
+              <div class="block-title">政策框架 <span>配置线索</span></div>
+              <div class="source-note">
+                以下按投研视角压缩原文框架，便于定位产业方向、需求来源和风险边界；正式表述以官方全文为准。
+              </div>
+              <div class="chapter-grid">
+                <article class="chapter"><small>01</small><strong>发展环境与目标</strong><p>判断外部不确定性、国内需求不足和新旧动能转换压力，确立高质量发展方向。</p></article>
+                <article class="chapter"><small>02</small><strong>现代化产业体系</strong><p>把实体经济作为重心，推动制造业智能化、绿色化和产业链安全。</p></article>
+                <article class="chapter"><small>03</small><strong>科技与人才</strong><p>强化原始创新、关键技术攻关和企业创新主体地位。</p></article>
+                <article class="chapter"><small>04</small><strong>数字中国</strong><p>围绕算力、算法、数据和AI治理建设数智化基础能力。</p></article>
+                <article class="chapter"><small>05</small><strong>扩大内需</strong><p>提振商品消费、服务消费和有效投资，增强国内大循环。</p></article>
+                <article class="chapter"><small>06</small><strong>改革开放</strong><p>完善市场机制、统一大市场、服务业开放和高水平贸易投资合作。</p></article>
+                <article class="chapter"><small>07</small><strong>乡村、区域与城市</strong><p>推进农业现代化、区域协调、都市圈、城市更新和海洋经济。</p></article>
+                <article class="chapter"><small>08</small><strong>民生、绿色与安全</strong><p>聚焦就业、收入、健康养老、碳达峰、生态治理和国家安全能力。</p></article>
+              </div>
+            </div>
+          </div>
+          <div class="frame-fallback">口径提示：关键提法用于形成产业研究假设，正式文本以人民政协网原文为准。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mindmap">
+      <div class="section-head">
+        <div>
+          <h2>政策主线与产业映射</h2>
+          <p>围绕科技自立、现代化产业体系、数字中国、绿色转型、内需修复和安全韧性，拆解产业链环节、A股样本和主要风险约束。</p>
+        </div>
+        <a class="button" href="./fifteenth-five-year-mindmap.html" target="_blank" rel="noreferrer">独立图谱</a>
+      </div>
+      <iframe class="mindmap-frame" src="./fifteenth-five-year-mindmap.html" title="十五五规划产业思维导图"></iframe>
+    </section>
+
+    <section class="section" id="stocks">
+      <div class="section-head">
+        <div>
+          <h2>A股股票池走势跟踪</h2>
+          <p>股票池整合前述全部入选标的。组合指数以2026-03-13为基准日归一化为100，并可按需剔除或保留股票池、大盘指数、个股和产业主线走势。</p>
+        </div>
+      </div>
+      <div class="stock-layout">
+        <div class="panel">
+          <div class="stock-top">
+            <div>
+              <strong>组合走势</strong>
+              <div class="risk-line" id="marketStamp">尚未拉取行情。</div>
+              <div class="risk-line" id="historyStamp">历史序列等待加载。</div>
+            </div>
+            <div class="controls">
+              <span class="button">起点：2026-03-13</span>
+              <select id="sectorFilter">
+                <option value="all">全部产业</option>
+              </select>
+              <button class="button primary" id="refreshBtn" type="button">更新行情</button>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">
+              <h3 id="chartHeading">股票池等权指数 vs 大盘指数</h3>
+              <span id="chartHint">2026-03-13=100</span>
+            </div>
+            <div class="chart-options" id="benchmarkOptions"></div>
+            <svg class="chart" id="poolChart" role="img" aria-label="股票池走势折线图"></svg>
+            <div class="mini-grid">
+              <div class="mini-card"><span>覆盖股票</span><strong id="coveredCount">--</strong></div>
+              <div class="mini-card"><span>平均涨跌</span><strong id="avgChange">--</strong></div>
+              <div class="mini-card"><span>上涨家数</span><strong id="upCount">--</strong></div>
+              <div class="mini-card"><span>下跌家数</span><strong id="downCount">--</strong></div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">
+              <h3>产业主线等权指数</h3>
+              <span id="sectorChartHint">各主线以2026-03-13=100归一化</span>
+            </div>
+            <div class="chart-options" id="sectorOptions"></div>
+            <svg class="chart" id="sectorChart" role="img" aria-label="产业主线走势折线图"></svg>
+            <p class="risk-line">主线指数按各产业组内已载入股票等权计算，默认保留表现靠前的少数主线；勾选项可增减任意主线。</p>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">
+              <h3>最新涨跌分布</h3>
+              <span>可与个股归一化曲线进行相对表现比较</span>
+            </div>
+            <svg class="chart" id="barChart" role="img" aria-label="股票涨跌幅柱状图"></svg>
+            <p class="risk-line">风险提示：此股票池用于跟踪产业方向，不代表买入建议。组合等权指数未考虑交易成本、停牌、分红再投资和实际流动性；指数对比采用同一起点归一化。</p>
+          </div>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="stock-top">
+            <div>
+              <strong>统一股票池</strong>
+              <div class="risk-line">按产业主线归类，便于比较政策弹性和市场定价。</div>
+            </div>
+            <input id="stockSearch" type="search" placeholder="搜索代码/名称">
+          </div>
+          <div class="stock-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>代码</th>
+                  <th>名称</th>
+                  <th>产业</th>
+                  <th>最新</th>
+                  <th>涨跌</th>
+                </tr>
+              </thead>
+              <tbody id="stockRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      数据口径：行情来自公开市场数据接口，刷新时间、可用性和准确性取决于数据源；规划文本以官方发布版本为准。本股票池为研究观察样本，不构成投资建议。
+    </footer>
+  </main>
+
+  <script>
+    const stocks = [
+      ["688041", "海光信息", "AI算力与半导体"], ["603019", "中科曙光", "AI算力与半导体"], ["000977", "浪潮信息", "AI算力与半导体"],
+      ["300308", "中际旭创", "AI算力与半导体"], ["300502", "新易盛", "AI算力与半导体"], ["000063", "中兴通讯", "AI算力与半导体"],
+      ["688111", "金山办公", "软件与数据"], ["600845", "宝信软件", "软件与数据"], ["688777", "中控技术", "软件与数据"],
+      ["600588", "用友网络", "软件与数据"], ["002230", "科大讯飞", "软件与数据"], ["000938", "紫光股份", "软件与数据"],
+      ["300212", "易华录", "软件与数据"], ["002415", "海康威视", "软件与数据"], ["300033", "同花顺", "软件与数据"],
+      ["600570", "恒生电子", "软件与数据"], ["300454", "深信服", "软件与数据"], ["688561", "奇安信", "软件与数据"],
+      ["600536", "中国软件", "软件与数据"], ["300124", "汇川技术", "高端装备与机器人"], ["601882", "海天精工", "高端装备与机器人"],
+      ["688697", "纽威数控", "高端装备与机器人"], ["300161", "华中数控", "高端装备与机器人"], ["002747", "埃斯顿", "高端装备与机器人"],
+      ["688017", "绿的谐波", "高端装备与机器人"], ["002472", "双环传动", "高端装备与机器人"], ["300750", "宁德时代", "新能源与电网"],
+      ["300274", "阳光电源", "新能源与电网"], ["600406", "国电南瑞", "新能源与电网"], ["600089", "特变电工", "新能源与电网"],
+      ["603606", "东方电缆", "新能源与电网"], ["000400", "许继电气", "新能源与电网"], ["600312", "平高电气", "新能源与电网"],
+      ["601985", "中国核电", "新能源与电网"], ["600905", "三峡能源", "新能源与电网"], ["600674", "川投能源", "新能源与电网"],
+      ["002594", "比亚迪", "智能汽车"], ["002920", "德赛西威", "智能汽车"], ["601689", "拓普集团", "智能汽车"],
+      ["603596", "伯特利", "智能汽车"], ["601799", "星宇股份", "智能汽车"], ["601899", "紫金矿业", "新材料与资源"],
+      ["600111", "北方稀土", "新材料与资源"], ["000831", "中国稀土", "新材料与资源"], ["688122", "西部超导", "新材料与资源"],
+      ["600309", "万华化学", "新材料与资源"], ["601088", "中国神华", "新材料与资源"], ["600519", "贵州茅台", "消费与服务"],
+      ["000333", "美的集团", "消费与服务"], ["600690", "海尔智家", "消费与服务"], ["603605", "珀莱雅", "消费与服务"],
+      ["000651", "格力电器", "消费与服务"], ["601888", "中国中免", "消费与服务"], ["600754", "锦江酒店", "消费与服务"],
+      ["300144", "宋城演艺", "消费与服务"], ["600258", "首旅酒店", "消费与服务"], ["600009", "上海机场", "消费与服务"],
+      ["600276", "恒瑞医药", "医疗与银发经济"], ["300760", "迈瑞医疗", "医疗与银发经济"], ["300015", "爱尔眼科", "医疗与银发经济"],
+      ["300347", "泰格医药", "医疗与银发经济"], ["600598", "北大荒", "农业与安全"], ["000998", "隆平高科", "农业与安全"],
+      ["300087", "荃银高科", "农业与安全"], ["002311", "海大集团", "农业与安全"], ["601038", "一拖股份", "农业与安全"],
+      ["601800", "中国交建", "基建与城市更新"], ["601390", "中国中铁", "基建与城市更新"], ["601186", "中国铁建", "基建与城市更新"],
+      ["601669", "中国电建", "基建与城市更新"], ["002372", "伟星新材", "基建与城市更新"], ["600150", "中国船舶", "海洋与国防"],
+      ["600685", "中船防务", "海洋与国防"], ["601872", "招商轮船", "海洋与国防"], ["601919", "中远海控", "海洋与国防"],
+      ["600583", "海油工程", "海洋与国防"], ["600760", "中航沈飞", "海洋与国防"], ["000768", "中航西飞", "海洋与国防"],
+      ["600893", "航发动力", "海洋与国防"], ["688297", "中无人机", "海洋与国防"], ["300627", "华测导航", "海洋与国防"],
+      ["603568", "伟明环保", "环保与碳管理"], ["600323", "瀚蓝环境", "环保与碳管理"], ["603588", "高能环境", "环保与碳管理"],
+      ["003035", "南网能源", "环保与碳管理"], ["600036", "招商银行", "金融强国"], ["601318", "中国平安", "金融强国"],
+      ["601601", "中国太保", "金融强国"], ["600030", "中信证券", "金融强国"], ["300059", "东方财富", "金融强国"]
+    ].map(([code, name, sector]) => ({ code, name, sector, secid: `${code.startsWith("6") ? "1" : "0"}.${code}`, sina: sinaSymbol(code) }));
+
+    const TRACKING_START = "20260313";
+    const TRACKING_START_LABEL = "2026-03-13";
+    const marketIndices = [
+      { code: "000001", name: "上证指数", secid: "1.000001", sina: "sh000001", color: "#315da8" },
+      { code: "399001", name: "深证成指", secid: "0.399001", sina: "sz399001", color: "#9a7624" },
+      { code: "399006", name: "创业板指", secid: "0.399006", sina: "sz399006", color: "#7b5fb2" },
+      { code: "000688", name: "科创50", secid: "1.000688", sina: "sh000688", color: "#a64545" }
+    ];
+    const sectorColors = ["#1d7d73", "#315da8", "#b45f39", "#8a6f24", "#7b5fb2", "#137b51", "#a64545", "#2f7f9f", "#8b6f4e", "#4b6f44", "#a0577b", "#64748b"];
+
+    const state = {
+      quoteMap: new Map(),
+      historyMap: new Map(),
+      indexHistoryMap: new Map(),
+      historyErrors: new Map(),
+      indexErrors: new Map(),
+      loadingRun: 0,
+      hiddenBenchmarkSeries: new Set(),
+      visibleSectors: new Set(),
+      sectorSelectionTouched: false,
+      selected: null,
+      sector: "all",
+      query: ""
+    };
+
+    document.getElementById("poolCount").textContent = stocks.length;
+    document.getElementById("coveredCount").textContent = stocks.length;
+
+    const sectorFilter = document.getElementById("sectorFilter");
+    [...new Set(stocks.map((stock) => stock.sector))].forEach((sector) => {
+      const option = document.createElement("option");
+      option.value = sector;
+      option.textContent = sector;
+      sectorFilter.appendChild(option);
+    });
+
+    sectorFilter.addEventListener("change", (event) => {
+      state.sector = event.target.value;
+      renderTable();
+      refreshHistory(false);
+    });
+
+    document.getElementById("stockSearch").addEventListener("input", (event) => {
+      state.query = event.target.value.trim().toLowerCase();
+      renderTable();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", () => refreshAll());
+
+    function jsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callback = `jsonp_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        const script = document.createElement("script");
+        let settled = false;
+        const done = (value, error) => {
+          if (settled) return;
+          settled = true;
+          delete window[callback];
+          script.remove();
+          error ? reject(error) : resolve(value);
+        };
+        window[callback] = (data) => done(data);
+        script.onerror = () => done(null, new Error("行情接口加载失败"));
+        script.async = true;
+        script.src = `${url}${url.includes("?") ? "&" : "?"}cb=${callback}`;
+        document.body.appendChild(script);
+        setTimeout(() => {
+          if (window[callback]) done(null, new Error("行情接口超时"));
+        }, 15000);
+      });
+    }
+
+    function sinaSymbol(code) {
+      return `${code.startsWith("6") ? "sh" : "sz"}${code}`;
+    }
+
+    function sinaJsonp(symbol) {
+      return new Promise((resolve, reject) => {
+        const callback = `sina_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        const script = document.createElement("script");
+        let settled = false;
+        const done = (value, error) => {
+          if (settled) return;
+          settled = true;
+          delete window[callback];
+          script.remove();
+          error ? reject(error) : resolve(value);
+        };
+        window[callback] = (data) => done(Array.isArray(data) ? data : []);
+        script.onerror = () => done(null, new Error("历史行情接口加载失败"));
+        script.async = true;
+        script.src = `https://quotes.sina.cn/cn/api/jsonp_v2.php/${callback}/CN_MarketDataService.getKLineData?symbol=${encodeURIComponent(symbol)}&scale=240&ma=no&datalen=1600`;
+        document.body.appendChild(script);
+        setTimeout(() => {
+          if (window[callback]) done(null, new Error("历史行情接口超时"));
+        }, 12000);
+      });
+    }
+
+    async function refreshAll() {
+      setStatus("加载中");
+      await loadQuotes();
+      await refreshHistory(true);
+      setStatus("已更新");
+    }
+
+    function currentUniverse() {
+      return stocks.filter((stock) => state.sector === "all" || stock.sector === state.sector);
+    }
+
+    async function loadQuotes() {
+      const fields = "f12,f14,f2,f3,f4,f5,f6,f17,f18";
+      const batches = chunk(stocks, 45);
+      let loadedRows = 0;
+      let failedBatches = 0;
+      try {
+        await Promise.all(batches.map(async (batch) => {
+          const secids = batch.map((stock) => stock.secid).join(",");
+          const url = `https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&secids=${encodeURIComponent(secids)}&fields=${fields}`;
+          try {
+            const res = await jsonp(url);
+            const rows = (res.data && res.data.diff) || [];
+            loadedRows += rows.length;
+            rows.forEach((item) => {
+              state.quoteMap.set(item.f12, {
+                code: item.f12,
+                name: item.f14,
+                price: toNumber(item.f2),
+                pct: toNumber(item.f3),
+                change: toNumber(item.f4),
+                open: toNumber(item.f17),
+                prev: toNumber(item.f18),
+                amount: toNumber(item.f6)
+              });
+            });
+          } catch (error) {
+            failedBatches += 1;
+          }
+        }));
+        if (!loadedRows) throw new Error("最新行情暂不可用");
+        const failureText = failedBatches ? `，${failedBatches}个批次未返回` : "";
+        document.getElementById("marketStamp").textContent = `行情更新时间：${new Date().toLocaleString("zh-CN")}；最新行情覆盖 ${loadedRows}/${stocks.length} 只${failureText}。`;
+      } catch (error) {
+        document.getElementById("marketStamp").textContent = `行情加载失败：${error.message}。待数据源恢复后可重新更新行情。`;
+      }
+      renderTable();
+      renderBars();
+      renderStats();
+    }
+
+    function chunk(items, size) {
+      const chunks = [];
+      for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+      }
+      return chunks;
+    }
+
+    function updateHistoryStatus(finished, total, failed) {
+      const loadedStocks = stocks.filter((stock) => (state.historyMap.get(stock.code) || []).length > 1).length;
+      const loadedIndices = marketIndices.filter((item) => (state.indexHistoryMap.get(item.code) || []).length > 1).length;
+      const progressText = total ? `历史序列 ${finished}/${total}` : "历史序列已缓存";
+      const failureText = failed ? `；失败 ${failed}` : "";
+      document.getElementById("historyStamp").textContent = `${progressText}；股票历史覆盖 ${loadedStocks}/${stocks.length}；大盘指数覆盖 ${loadedIndices}/${marketIndices.length}${failureText}。`;
+      if (total && finished < total) {
+        setStatus(`${finished}/${total}`);
+      }
+    }
+
+    async function refreshHistory(force) {
+      const runId = ++state.loadingRun;
+      const universe = stocks;
+      const needs = force ? universe : universe.filter((stock) => !state.historyMap.has(stock.code));
+      const queue = [...needs];
+      const indexNeeds = force ? marketIndices : marketIndices.filter((item) => !state.indexHistoryMap.has(item.code));
+      let finished = 0;
+      let failed = 0;
+      const total = needs.length + indexNeeds.length;
+      updateHistoryStatus(finished, total, failed);
+      const paintProgress = () => {
+        if (runId !== state.loadingRun) return;
+        updateHistoryStatus(finished, total, failed);
+        drawPoolChart();
+        drawSectorChart();
+      };
+      const workers = Array.from({ length: Math.min(4, queue.length) }, async () => {
+        while (queue.length) {
+          const stock = queue.shift();
+          try {
+            const history = await loadHistory(stock);
+            state.historyMap.set(stock.code, history);
+            if (!history.length) {
+              failed += 1;
+              state.historyErrors.set(stock.code, "无历史数据");
+            } else {
+              state.historyErrors.delete(stock.code);
+            }
+          } catch (error) {
+            state.historyMap.set(stock.code, []);
+            state.historyErrors.set(stock.code, error.message);
+            failed += 1;
+          } finally {
+            finished += 1;
+            paintProgress();
+          }
+        }
+      });
+      const indexWorkers = Array.from({ length: Math.min(4, indexNeeds.length) }, async (_, workerIndex) => {
+        for (let i = workerIndex; i < indexNeeds.length; i += 4) {
+          const item = indexNeeds[i];
+          try {
+            const history = await loadHistory(item);
+            state.indexHistoryMap.set(item.code, history);
+            if (!history.length) {
+              failed += 1;
+              state.indexErrors.set(item.code, "无历史数据");
+            } else {
+              state.indexErrors.delete(item.code);
+            }
+          } catch (error) {
+            state.indexHistoryMap.set(item.code, []);
+            state.indexErrors.set(item.code, error.message);
+            failed += 1;
+          } finally {
+            finished += 1;
+            paintProgress();
+          }
+        }
+      });
+      await Promise.all([...workers, ...indexWorkers]);
+      drawPoolChart();
+      drawSectorChart();
+      updateHistoryStatus(finished, total, failed);
+      setStatus("已更新");
+    }
+
+    async function loadHistory(item) {
+      const rows = await sinaJsonp(item.sina || sinaSymbol(item.code));
+      return rows.map((row) => ({
+        date: row.day,
+        open: Number(row.open),
+        close: Number(row.close),
+        high: Number(row.high),
+        low: Number(row.low)
+      })).filter((row) => row.date >= TRACKING_START_LABEL && Number.isFinite(row.close));
+    }
+
+    function buildEqualWeightSeries(universe) {
+      const dateMap = new Map();
+      let loadedCount = 0;
+      universe.forEach((stock) => {
+        const history = state.historyMap.get(stock.code) || [];
+        if (history.length < 2) return;
+        loadedCount += 1;
+        const base = history[0].close;
+        history.forEach((item) => {
+          if (!dateMap.has(item.date)) dateMap.set(item.date, []);
+          dateMap.get(item.date).push((item.close / base) * 100);
+        });
+      });
+      const minCount = Math.max(1, Math.floor(loadedCount * 0.2));
+      return [...dateMap.entries()]
+        .map(([date, values]) => ({ date, value: avg(values), count: values.length }))
+        .filter((item) => item.count >= minCount)
+        .sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function buildPoolSeries() {
+      return buildEqualWeightSeries(currentUniverse());
+    }
+
+    function drawPoolChart() {
+      const pool = buildPoolSeries();
+      const selectedHistory = state.selected ? state.historyMap.get(state.selected.code) || [] : [];
+      const selectedSeries = selectedHistory.length
+        ? selectedHistory.map((item) => ({ date: item.date, value: (item.close / selectedHistory[0].close) * 100 }))
+        : [];
+      const chart = document.getElementById("poolChart");
+      const title = state.selected ? `股票池等权指数 vs 大盘指数 vs ${state.selected.name}` : "股票池等权指数 vs 大盘指数";
+      document.getElementById("chartHeading").textContent = title;
+      const benchmarkSeries = [
+        { id: "pool", name: "股票池", color: "#1d7d73", data: pool },
+        ...marketIndices.map((index) => ({
+          id: `index-${index.code}`,
+          name: index.name,
+          color: index.color,
+          data: normalizeSeries(state.indexHistoryMap.get(index.code) || [])
+        }))
+      ];
+      if (state.selected) {
+        benchmarkSeries.push({
+          id: `stock-${state.selected.code}`,
+          name: state.selected.name,
+          color: "#b45f39",
+          data: selectedSeries
+        });
+      }
+      renderSeriesOptions("benchmarkOptions", benchmarkSeries, state.hiddenBenchmarkSeries, (id, checked) => {
+        checked ? state.hiddenBenchmarkSeries.delete(id) : state.hiddenBenchmarkSeries.add(id);
+        drawPoolChart();
+      });
+      drawLineChart(chart, benchmarkSeries
+        .filter((series) => !state.hiddenBenchmarkSeries.has(series.id))
+        .filter((series) => series.data.length), "请选择至少一条走势");
+      const latest = pool.at(-1);
+      const visibleCount = benchmarkSeries.filter((series) => !state.hiddenBenchmarkSeries.has(series.id) && series.data.length).length;
+      document.getElementById("chartHint").textContent = latest
+        ? `股票池最新 ${latest.value.toFixed(2)}，当前显示 ${visibleCount} 条走势`
+        : "等待行情数据";
+    }
+
+    function buildSectorSeries() {
+      const sectors = [...new Set(stocks.map((stock) => stock.sector))];
+      return sectors.map((sector, index) => ({
+        id: sector,
+        name: sector,
+        color: sectorColors[index % sectorColors.length],
+        data: buildEqualWeightSeries(stocks.filter((stock) => stock.sector === sector))
+      })).filter((item) => item.data.length);
+    }
+
+    function drawSectorChart() {
+      const sectors = [...new Set(stocks.map((stock) => stock.sector))];
+      const series = buildSectorSeries();
+      if (!state.sectorSelectionTouched && series.length) {
+        const top = [...series]
+          .sort((a, b) => (b.data.at(-1)?.value || 0) - (a.data.at(-1)?.value || 0))
+          .slice(0, Math.min(5, series.length));
+        state.visibleSectors = new Set(top.map((item) => item.id));
+      }
+      renderSectorOptions(series);
+      const visibleSeries = series.filter((item) => state.visibleSectors.has(item.id));
+      drawLineChart(document.getElementById("sectorChart"), visibleSeries, "请选择至少一条产业主线");
+      const loadedSectors = series.length;
+      document.getElementById("sectorChartHint").textContent = loadedSectors
+        ? `${loadedSectors}/${sectors.length}条主线已有历史序列，当前显示 ${visibleSeries.length} 条`
+        : `各主线以${TRACKING_START_LABEL}=100归一化`;
+    }
+
+    function renderSeriesOptions(containerId, seriesList, hiddenSet, onChange) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = seriesList.map((series) => {
+        const checked = !hiddenSet.has(series.id);
+        const disabled = !series.data.length;
+        return `<label class="option-chip" style="--chip-color: ${series.color}; opacity: ${disabled ? 0.45 : 1}">
+          <input type="checkbox" data-id="${escapeHtml(series.id)}" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""}>
+          <span class="option-dot"></span>
+          <span>${escapeHtml(series.name)}</span>
+        </label>`;
+      }).join("");
+      container.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", () => onChange(input.dataset.id, input.checked));
+      });
+    }
+
+    function renderSectorOptions(seriesList) {
+      const container = document.getElementById("sectorOptions");
+      container.innerHTML = seriesList.map((series) => {
+        const checked = state.visibleSectors.has(series.id);
+        return `<label class="option-chip" style="--chip-color: ${series.color}">
+          <input type="checkbox" data-id="${escapeHtml(series.id)}" ${checked ? "checked" : ""}>
+          <span class="option-dot"></span>
+          <span>${escapeHtml(series.name)}</span>
+        </label>`;
+      }).join("");
+      container.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", () => {
+          state.sectorSelectionTouched = true;
+          input.checked ? state.visibleSectors.add(input.dataset.id) : state.visibleSectors.delete(input.dataset.id);
+          drawSectorChart();
+        });
+      });
+    }
+
+    function normalizeSeries(history) {
+      if (!history.length) return [];
+      const base = history[0].close;
+      return history.map((item) => ({ date: item.date, value: (item.close / base) * 100 }));
+    }
+
+    function drawLineChart(svg, seriesList, emptyText = "等待行情数据生成走势") {
+      svg.innerHTML = "";
+      const width = svg.clientWidth || 760;
+      const height = svg.clientHeight || 350;
+      const pad = { top: 28, right: 32, bottom: 50, left: 48 };
+      const all = seriesList.flatMap((series) => series.data);
+      if (!all.length) {
+        drawEmpty(svg, width, height, emptyText);
+        return;
+      }
+      const dates = [...new Set(all.map((item) => item.date))].sort();
+      const values = all.map((item) => item.value);
+      const min = Math.min(...values) * 0.985;
+      const max = Math.max(...values) * 1.015;
+      const x = (date) => pad.left + (dates.indexOf(date) / Math.max(1, dates.length - 1)) * (width - pad.left - pad.right);
+      const y = (value) => pad.top + (1 - (value - min) / Math.max(1, max - min)) * (height - pad.top - pad.bottom);
+      addAxis(svg, width, height, pad, min, max);
+      addTimeAxis(svg, dates, x, height, pad);
+      const showEndLabels = seriesList.length <= 7;
+      const lineWidth = seriesList.length > 7 ? 2.2 : 3;
+      seriesList.forEach((series) => {
+        const d = series.data.map((item, index) => `${index ? "L" : "M"} ${x(item.date).toFixed(2)} ${y(item.value).toFixed(2)}`).join(" ");
+        const path = el("path", { d, fill: "none", stroke: series.color, "stroke-width": lineWidth, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: seriesList.length > 7 ? 0.82 : 1 });
+        svg.appendChild(path);
+        const last = series.data.at(-1);
+        svg.appendChild(el("circle", { cx: x(last.date), cy: y(last.value), r: 4, fill: series.color }));
+        if (showEndLabels) {
+          svg.appendChild(el("text", { x: x(last.date) - 8, y: y(last.value) - 10, fill: series.color, "font-size": 12, "text-anchor": "end" }, `${series.name} ${last.value.toFixed(1)}`));
+        }
+      });
+    }
+
+    function addTimeAxis(svg, dates, x, height, pad) {
+      if (!dates.length) return;
+      const tickCount = Math.min(6, Math.max(2, Math.floor((svg.clientWidth || 760) / 150)));
+      const indexes = Array.from({ length: tickCount }, (_, i) => Math.round(i * (dates.length - 1) / Math.max(1, tickCount - 1)));
+      [...new Set(indexes)].forEach((index) => {
+        const date = dates[index];
+        const tx = x(date);
+        svg.appendChild(el("line", { x1: tx, y1: pad.top, x2: tx, y2: height - pad.bottom, stroke: "rgba(32,36,43,.07)" }));
+        svg.appendChild(el("line", { x1: tx, y1: height - pad.bottom, x2: tx, y2: height - pad.bottom + 5, stroke: "rgba(32,36,43,.24)" }));
+        svg.appendChild(el("text", { x: tx, y: height - 18, fill: "#697382", "font-size": 11, "text-anchor": index === 0 ? "start" : index === dates.length - 1 ? "end" : "middle" }, formatAxisDate(date)));
+      });
+    }
+
+    function formatAxisDate(date) {
+      const parts = String(date).split("-");
+      return parts.length === 3 ? `${parts[1]}/${parts[2]}` : date;
+    }
+
+    function renderBars() {
+      const rows = filteredStocks()
+        .map((stock) => ({ ...stock, pct: (state.quoteMap.get(stock.code) || {}).pct }))
+        .filter((stock) => Number.isFinite(stock.pct))
+        .sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct))
+        .slice(0, 18);
+      const svg = document.getElementById("barChart");
+      svg.innerHTML = "";
+      const width = svg.clientWidth || 760;
+      const height = svg.clientHeight || 350;
+      if (!rows.length) {
+        drawEmpty(svg, width, height, "等待最新涨跌幅数据");
+        return;
+      }
+      const pad = { top: 22, right: 34, bottom: 36, left: 88 };
+      const maxAbs = Math.max(...rows.map((row) => Math.abs(row.pct)), 1);
+      const zeroX = pad.left + (width - pad.left - pad.right) / 2;
+      const rowH = (height - pad.top - pad.bottom) / rows.length;
+      svg.appendChild(el("line", { x1: zeroX, y1: pad.top, x2: zeroX, y2: height - pad.bottom, stroke: "rgba(32,36,43,.22)", "stroke-width": 1 }));
+      rows.forEach((row, index) => {
+        const y = pad.top + index * rowH + rowH * 0.18;
+        const barW = Math.abs(row.pct) / maxAbs * ((width - pad.left - pad.right) / 2 - 10);
+        const x = row.pct >= 0 ? zeroX : zeroX - barW;
+        const color = row.pct >= 0 ? "#a64545" : "#137b51";
+        svg.appendChild(el("text", { x: pad.left - 8, y: y + rowH * 0.45, fill: "#697382", "font-size": 11, "text-anchor": "end" }, row.name));
+        svg.appendChild(el("rect", { x, y, width: barW, height: Math.max(8, rowH * 0.58), rx: 5, fill: color, opacity: 0.88 }));
+        svg.appendChild(el("text", { x: row.pct >= 0 ? x + barW + 5 : x - 5, y: y + rowH * 0.45, fill: color, "font-size": 11, "dominant-baseline": "middle", "text-anchor": row.pct >= 0 ? "start" : "end" }, `${row.pct.toFixed(2)}%`));
+      });
+    }
+
+    function renderTable() {
+      const rows = filteredStocks();
+      const tbody = document.getElementById("stockRows");
+      tbody.innerHTML = rows.map((stock) => {
+        const quote = state.quoteMap.get(stock.code) || {};
+        const pctClass = Number.isFinite(quote.pct) ? quote.pct >= 0 ? "pos" : "neg" : "";
+        const active = state.selected && state.selected.code === stock.code ? " class=\"active\"" : "";
+        return `<tr data-code="${stock.code}"${active}>
+          <td>${stock.code}</td>
+          <td>${stock.name}</td>
+          <td><span class="tag">${stock.sector}</span></td>
+          <td>${fmt(quote.price)}</td>
+          <td class="${pctClass}">${fmtPct(quote.pct)}</td>
+        </tr>`;
+      }).join("");
+      tbody.querySelectorAll("tr").forEach((row) => {
+        row.addEventListener("click", async () => {
+          state.selected = stocks.find((stock) => stock.code === row.dataset.code);
+          renderTable();
+          if (state.selected && !state.historyMap.has(state.selected.code)) {
+            setStatus("个股历史");
+            try {
+              const history = await loadHistory(state.selected);
+              state.historyMap.set(state.selected.code, history);
+              state.historyErrors.delete(state.selected.code);
+            } catch (error) {
+              state.historyMap.set(state.selected.code, []);
+              state.historyErrors.set(state.selected.code, error.message);
+            }
+          }
+          drawPoolChart();
+          drawSectorChart();
+        });
+      });
+    }
+
+    function filteredStocks() {
+      return currentUniverse().filter((stock) => {
+        if (!state.query) return true;
+        return `${stock.code} ${stock.name} ${stock.sector}`.toLowerCase().includes(state.query);
+      });
+    }
+
+    function renderStats() {
+      const quotes = filteredStocks().map((stock) => state.quoteMap.get(stock.code)).filter(Boolean).filter((quote) => Number.isFinite(quote.pct));
+      document.getElementById("coveredCount").textContent = quotes.length || "--";
+      document.getElementById("avgChange").textContent = quotes.length ? `${avg(quotes.map((quote) => quote.pct)).toFixed(2)}%` : "--";
+      document.getElementById("upCount").textContent = quotes.filter((quote) => quote.pct > 0).length || "--";
+      document.getElementById("downCount").textContent = quotes.filter((quote) => quote.pct < 0).length || "--";
+    }
+
+    function addAxis(svg, width, height, pad, min, max) {
+      [0, 0.25, 0.5, 0.75, 1].forEach((ratio) => {
+        const y = pad.top + ratio * (height - pad.top - pad.bottom);
+        const value = max - ratio * (max - min);
+        svg.appendChild(el("line", { x1: pad.left, y1: y, x2: width - pad.right, y2: y, stroke: "rgba(32,36,43,.10)" }));
+        svg.appendChild(el("text", { x: pad.left - 9, y: y + 4, fill: "#697382", "font-size": 11, "text-anchor": "end" }, value.toFixed(1)));
+      });
+      svg.appendChild(el("line", { x1: pad.left, y1: height - pad.bottom, x2: width - pad.right, y2: height - pad.bottom, stroke: "rgba(32,36,43,.16)" }));
+    }
+
+    function drawEmpty(svg, width, height, text) {
+      svg.appendChild(el("text", { x: width / 2, y: height / 2, fill: "#697382", "font-size": 14, "text-anchor": "middle" }, text));
+    }
+
+    function el(name, attrs, text) {
+      const node = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs || {}).forEach(([key, value]) => node.setAttribute(key, value));
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function avg(values) {
+      return values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
+    }
+
+    function toNumber(value) {
+      const number = Number(value);
+      return Number.isFinite(number) ? number : null;
+    }
+
+    function fmt(value) {
+      return Number.isFinite(value) ? value.toFixed(2) : "--";
+    }
+
+    function fmtPct(value) {
+      return Number.isFinite(value) ? `${value > 0 ? "+" : ""}${value.toFixed(2)}%` : "--";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function setStatus(text) {
+      document.getElementById("loadState").textContent = text;
+    }
+
+    renderTable();
+    drawPoolChart();
+    drawSectorChart();
+    renderBars();
+    refreshAll();
+  </script>
+</body>
+</html>
