@@ -757,6 +757,389 @@
         height: 720px;
       }
     }
+
+    :root {
+      --bg: #f7f8f6;
+      --ink: #18202b;
+      --muted: #667181;
+      --panel: rgba(255, 255, 255, 0.88);
+      --card: #ffffff;
+      --line: rgba(24, 32, 43, 0.12);
+      --accent: #0f766e;
+      --blue: #1f4f82;
+      --warm: #b36b2d;
+      --gold: #a17a23;
+      --red: #b4232f;
+      --green: #087443;
+      --shadow: 0 22px 50px rgba(24, 32, 43, 0.08);
+    }
+
+    body {
+      background:
+        linear-gradient(90deg, rgba(24, 32, 43, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(24, 32, 43, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, #fbfcfa 0%, #eef3ef 100%);
+      background-size: 64px 64px, 64px 64px, auto;
+    }
+
+    .shell {
+      width: min(1480px, calc(100vw - 48px));
+    }
+
+    .top {
+      border-bottom: 1px solid rgba(24, 32, 43, 0.1);
+      background: rgba(251, 252, 250, 0.84);
+    }
+
+    .brand-mark {
+      border-radius: 10px;
+      background: #18202b;
+      box-shadow: none;
+    }
+
+    .nav-links a,
+    .button {
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.72);
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .nav-links a:hover,
+    .button:hover {
+      border-color: rgba(15, 118, 110, 0.36);
+      background: #fff;
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      background: #18202b;
+    }
+
+    .hero {
+      grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+      align-items: stretch;
+      gap: 18px;
+      padding: 34px 0 14px;
+    }
+
+    .hero-panel {
+      min-height: 440px;
+      display: grid;
+      align-content: space-between;
+      border-radius: 12px;
+      border-color: rgba(24, 32, 43, 0.1);
+      background:
+        linear-gradient(115deg, rgba(24, 32, 43, 0.96), rgba(31, 79, 130, 0.9)),
+        #18202b;
+      color: #f9faf7;
+      box-shadow: 0 26px 70px rgba(24, 32, 43, 0.2);
+    }
+
+    .hero-panel::after {
+      right: 0;
+      bottom: 0;
+      width: 46%;
+      height: 100%;
+      border-radius: 0;
+      background:
+        linear-gradient(135deg, transparent 0 35%, rgba(255, 255, 255, 0.08) 35% 36%, transparent 36% 100%),
+        linear-gradient(45deg, transparent 0 48%, rgba(255, 255, 255, 0.08) 48% 49%, transparent 49% 100%);
+      background-size: 72px 72px, 96px 96px;
+      filter: none;
+      opacity: 0.9;
+    }
+
+    .hero-kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      width: fit-content;
+      min-height: 28px;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 0 11px;
+      color: rgba(249, 250, 247, 0.74);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      margin-top: 18px;
+      max-width: 850px;
+      font-size: clamp(38px, 5.4vw, 74px);
+      color: #fffaf0;
+    }
+
+    .hero-panel p {
+      color: rgba(249, 250, 247, 0.72);
+      font-size: 15px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+    }
+
+    .hero-actions .button {
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #f9faf7;
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .hero-actions .button.primary {
+      color: #18202b;
+      background: #f7c867;
+    }
+
+    .thesis-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .thesis-strip span {
+      display: block;
+      min-height: 70px;
+      padding: 13px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(249, 250, 247, 0.76);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .thesis-strip b {
+      display: block;
+      margin-bottom: 5px;
+      color: #fffaf0;
+      font-size: 13px;
+    }
+
+    .stat-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card,
+    .panel,
+    .chapter,
+    .mini-card {
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      min-height: 214px;
+      border-left: 0;
+      padding: 20px;
+    }
+
+    .stat-card::before {
+      inset: auto 20px 16px 20px;
+      width: auto;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--stat-color, var(--accent)), transparent);
+    }
+
+    .stat-card::after {
+      display: none;
+    }
+
+    .stat-icon {
+      border-radius: 9px;
+      box-shadow: none;
+    }
+
+    .stat-card strong {
+      margin-top: 28px;
+    }
+
+    .section {
+      margin: 34px 0;
+    }
+
+    .section-head {
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding: 0 2px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(25px, 2.5vw, 36px);
+    }
+
+    .panel {
+      border-color: rgba(24, 32, 43, 0.1);
+    }
+
+    .article-digest {
+      padding: clamp(22px, 3vw, 34px);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 248, 0.94)),
+        var(--card);
+    }
+
+    .article-digest .official-title,
+    .source-note {
+      border-radius: 12px;
+      background: #eef4f2;
+      color: #344a48;
+    }
+
+    .source-unified {
+      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
+      gap: 22px;
+    }
+
+    .key-list li {
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .chapter-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chapter {
+      min-height: 118px;
+      border-left: 3px solid rgba(15, 118, 110, 0.5);
+    }
+
+    .mindmap-console {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid rgba(24, 32, 43, 0.1);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .map-brief {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      padding: 22px;
+      border-right: 1px solid var(--line);
+      background: #18202b;
+      color: #f9faf7;
+    }
+
+    .map-brief small {
+      color: rgba(249, 250, 247, 0.58);
+      font-size: 12px;
+    }
+
+    .map-brief h3 {
+      margin: 0;
+      color: #fffaf0;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .map-brief p {
+      margin: 0;
+      color: rgba(249, 250, 247, 0.7);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .map-metric {
+      display: grid;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .map-metric span {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(249, 250, 247, 0.7);
+      font-size: 12px;
+    }
+
+    .map-metric b {
+      color: #f7c867;
+    }
+
+    .mindmap-frame {
+      height: min(900px, 88vh);
+      min-height: 760px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .stock-layout {
+      grid-template-columns: minmax(0, 1.34fr) minmax(380px, 0.66fr);
+    }
+
+    .stock-top {
+      background: rgba(248, 251, 248, 0.72);
+    }
+
+    .controls select,
+    .controls input,
+    .option-chip,
+    .tag,
+    .digest-meta span {
+      border-radius: 10px;
+    }
+
+    svg.chart {
+      border-radius: 12px;
+      background:
+        linear-gradient(rgba(24, 32, 43, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24, 32, 43, 0.045) 1px, transparent 1px),
+        #ffffff;
+      background-size: 25% 25%, 12.5% 100%, auto;
+    }
+
+    @media (max-width: 1160px) {
+      .hero,
+      .source-unified,
+      .stock-layout,
+      .mindmap-console {
+        grid-template-columns: 1fr;
+      }
+
+      .map-brief {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 24px, 1480px);
+      }
+
+      .hero-panel {
+        min-height: auto;
+      }
+
+      .thesis-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card {
+        min-height: 160px;
+      }
+
+      .mindmap-frame {
+        min-height: 700px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -781,12 +1164,20 @@
   <main class="shell">
     <section class="hero">
       <div class="hero-panel">
-        <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
-        <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#mindmap">产业图谱</a>
-          <a class="button" href="#stocks">跟踪股票池</a>
-          <a class="button" href="#source">政策依据</a>
+        <div>
+          <div class="hero-kicker">FIFTEENTH FIVE-YEAR PLAN · EQUITY RESEARCH MAP</div>
+          <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
+          <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#mindmap">产业图谱</a>
+            <a class="button" href="#stocks">跟踪股票池</a>
+            <a class="button" href="#source">政策依据</a>
+          </div>
+        </div>
+        <div class="thesis-strip" aria-label="研究框架">
+          <span><b>政策强度</b>从规划主线提取确定性方向，避免只按概念归类。</span>
+          <span><b>产业兑现</b>拆到需求、订单、现金流和竞争格局。</span>
+          <span><b>市场验证</b>用股票池相对指数表现持续回测主题强弱。</span>
         </div>
       </div>
       <div class="stat-grid">
@@ -875,7 +1266,20 @@
         </div>
         <a class="button" href="./fifteenth-five-year-mindmap.html" target="_blank" rel="noreferrer">独立图谱</a>
       </div>
-      <iframe class="mindmap-frame" src="./fifteenth-five-year-mindmap.html" title="十五五规划产业思维导图"></iframe>
+      <div class="mindmap-console">
+        <aside class="map-brief">
+          <small>POLICY TO PORTFOLIO</small>
+          <h3>一张图看清主线、产业和样本股</h3>
+          <p>默认先呈现政策主线，主线节点可展开到产业链、股票样本和风险约束，减少信息拥挤。</p>
+          <div class="map-metric">
+            <span>政策主线 <b>7 条</b></span>
+            <span>产业主题 <b>25 个</b></span>
+            <span>A股样本 <b id="mapStockCount">--</b></span>
+            <span>风险层级 <b>可展开</b></span>
+          </div>
+        </aside>
+        <iframe class="mindmap-frame" src="./fifteenth-five-year-mindmap.html" title="十五五规划产业思维导图"></iframe>
+      </div>
     </section>
 
     <section class="section" id="stocks">
@@ -1026,6 +1430,7 @@
 
     document.getElementById("poolCount").textContent = stocks.length;
     document.getElementById("coveredCount").textContent = stocks.length;
+    document.getElementById("mapStockCount").textContent = `${stocks.length} 只`;
 
     const sectorFilter = document.getElementById("sectorFilter");
     [...new Set(stocks.map((stock) => stock.sector))].forEach((sector) => {
