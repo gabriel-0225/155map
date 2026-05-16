@@ -585,6 +585,102 @@
       line-height: 1.7;
     }
 
+    .research-hub {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .research-board {
+      padding: 20px;
+    }
+
+    .research-board h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.3;
+    }
+
+    .research-board p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .plugin-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .plugin-card,
+    .source-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--card);
+    }
+
+    .plugin-card {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .plugin-card strong,
+    .source-card strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .plugin-card span,
+    .source-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      max-height: 620px;
+      overflow: auto;
+    }
+
+    .source-card header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .source-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 9px;
+      text-decoration: none;
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.76);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     .source-unified {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(340px, 0.78fr);
@@ -1049,6 +1145,7 @@
       .hero,
       .source-layout,
       .source-unified,
+      .research-hub,
       .brief-shell,
       .stock-layout {
         grid-template-columns: 1fr;
@@ -1089,7 +1186,12 @@
       .stat-grid,
       .chapter-grid,
       .source-unified,
+      .research-hub,
       .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plugin-card {
         grid-template-columns: 1fr;
       }
 
@@ -1166,6 +1268,7 @@
       </div>
       <div class="nav-links">
         <a href="#source" data-tooltip="查看政策依据">规划原文</a>
+        <a href="#research" data-tooltip="查看研究资料库">研究链路</a>
         <a href="#mindmap" data-tooltip="跳转到产业思维导图">思维导图</a>
         <a href="#today" data-tooltip="查看今日结论">今日结论</a>
         <a href="#stocks" data-tooltip="查看A股股票池走势">股票池走势</a>
@@ -1175,6 +1278,40 @@
   </header>
 
   <main class="shell">
+    <section class="hero">
+      <div class="hero-panel">
+        <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
+        <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#mindmap" data-tooltip="打开产业图谱区域">产业图谱</a>
+          <a class="button" href="#stocks" data-tooltip="查看股票池跟踪模块">跟踪股票池</a>
+          <a class="button" href="#source" data-tooltip="查看规划依据和要点">政策依据</a>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card" style="--stat-color: #315da8;">
+          <div class="stat-head"><span>宏观底色</span><b class="stat-icon" data-tooltip="GDP增长韧性">G</b></div>
+          <strong>5.0%</strong>
+          <p>2026年一季度GDP同比增速，显示总量仍有韧性。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #1d7d73;">
+          <div class="stat-head"><span>制造业景气</span><b class="stat-icon" data-tooltip="制造业PMI">P</b></div>
+          <strong>50.3</strong>
+          <p>2026年4月制造业PMI，位于扩张区间。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #b45f39;">
+          <div class="stat-head"><span>股票池</span><b class="stat-icon" data-tooltip="A股观察样本数">A</b></div>
+          <strong id="poolCount">--</strong>
+          <p>覆盖政策受益链条中的核心A股样本，按产业主线归类。</p>
+        </div>
+        <div class="stat-card" style="--stat-color: #8a6f24;">
+          <div class="stat-head"><span>图表状态</span><b class="stat-icon" data-tooltip="行情加载状态">↻</b></div>
+          <strong id="loadState">待加载</strong>
+          <p>实时跟踪组合净值、个股涨跌和相对基准表现。</p>
+        </div>
+      </div>
+    </section>
+
     <section class="today-brief" id="today">
       <div class="brief-shell">
         <div class="brief-panel brief-main">
@@ -1220,40 +1357,6 @@
           </div>
           </div>
         </aside>
-      </div>
-    </section>
-
-    <section class="hero">
-      <div class="hero-panel">
-        <h1>十五五产业投资图谱：政策主线、A股映射与市场验证</h1>
-        <p>面向投资者，把政策关键词映射到产业链和A股观察池：从2026-03-13发布日起跟踪等权股票池，并与上证、深证、创业板、科创50对比，辅助判断主题强弱、市场相对收益和风险暴露。</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#mindmap" data-tooltip="打开产业图谱区域">产业图谱</a>
-          <a class="button" href="#stocks" data-tooltip="查看股票池跟踪模块">跟踪股票池</a>
-          <a class="button" href="#source" data-tooltip="查看规划依据和要点">政策依据</a>
-        </div>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card" style="--stat-color: #315da8;">
-          <div class="stat-head"><span>宏观底色</span><b class="stat-icon" data-tooltip="GDP增长韧性">G</b></div>
-          <strong>5.0%</strong>
-          <p>2026年一季度GDP同比增速，显示总量仍有韧性。</p>
-        </div>
-        <div class="stat-card" style="--stat-color: #1d7d73;">
-          <div class="stat-head"><span>制造业景气</span><b class="stat-icon" data-tooltip="制造业PMI">P</b></div>
-          <strong>50.3</strong>
-          <p>2026年4月制造业PMI，位于扩张区间。</p>
-        </div>
-        <div class="stat-card" style="--stat-color: #b45f39;">
-          <div class="stat-head"><span>股票池</span><b class="stat-icon" data-tooltip="A股观察样本数">A</b></div>
-          <strong id="poolCount">--</strong>
-          <p>覆盖政策受益链条中的核心A股样本，按产业主线归类。</p>
-        </div>
-        <div class="stat-card" style="--stat-color: #8a6f24;">
-          <div class="stat-head"><span>图表状态</span><b class="stat-icon" data-tooltip="行情加载状态">↻</b></div>
-          <strong id="loadState">待加载</strong>
-          <p>实时跟踪组合净值、个股涨跌和相对基准表现。</p>
-        </div>
       </div>
     </section>
 
@@ -1307,6 +1410,37 @@
             </div>
           </div>
           <div class="frame-fallback">口径提示：关键提法用于形成产业研究假设，正式文本以人民政协网原文为准。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="research">
+      <div class="section-head">
+        <div>
+          <h2>资料来源与研究链路</h2>
+          <p>把插件能力转化成可维护的静态研究资料：政策原文定口径，行业和新闻资料做验证，公司资料补充股票池逻辑，所有结论保留来源入口。</p>
+        </div>
+      </div>
+      <div class="research-hub">
+        <div class="panel research-board">
+          <h3>插件使用优先级</h3>
+          <p>当前站点不直接在浏览器调用插件，插件用于内容生产和核验流程；网页只发布整理后的来源、摘要和使用场景。</p>
+          <div class="plugin-grid">
+            <article class="plugin-card"><strong>PolicyNote</strong><span>政策依据和监管方向，负责校准十五五主线和落地节奏。</span></article>
+            <article class="plugin-card"><strong>CB Insights</strong><span>行业和公司研究，补强AI、先进制造、机器人、新材料等产业逻辑。</span></article>
+            <article class="plugin-card"><strong>Factiva / MT Newswires</strong><span>新闻与市场事件，解释近期产业强弱和风险暴露。</span></article>
+            <article class="plugin-card"><strong>Quartr</strong><span>公告、业绩会和IR资料，服务后续个股详情和公司逻辑。</span></article>
+            <article class="plugin-card"><strong>Zotero</strong><span>长期引用管理，沉淀政策、研报、公告和新闻来源。</span></article>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="stock-top">
+            <div>
+              <strong>研究资料库</strong>
+              <div class="risk-line">按来源、主题和用途维护，后续每次内容更新只追加资料条目。</div>
+            </div>
+          </div>
+          <div class="source-list" id="researchSourceList"></div>
         </div>
       </div>
     </section>
@@ -1425,6 +1559,7 @@
     </footer>
   </main>
 
+  <script src="./research-data.js"></script>
   <script>
     const sectorProfiles = {
       "AI算力与半导体": {
@@ -1577,6 +1712,16 @@
       { code: "000688", name: "科创50", secid: "1.000688", sina: "sh000688", color: "#a64545" }
     ];
     const sectorColors = ["#1d7d73", "#315da8", "#b45f39", "#8a6f24", "#7b5fb2", "#137b51", "#a64545", "#2f7f9f", "#8b6f4e", "#4b6f44", "#a0577b", "#64748b"];
+    const themeNames = {
+      all: "全部主线",
+      macro: "宏观底色",
+      tech: "科技自立自强",
+      industry: "现代化产业体系",
+      digital: "数字中国",
+      green: "绿色转型",
+      demand: "扩大内需与民生",
+      security: "安全与韧性"
+    };
 
     const state = {
       quoteMap: new Map(),
@@ -2335,6 +2480,31 @@
       document.getElementById("loadState").textContent = text;
     }
 
+    function renderResearchHub() {
+      const container = document.getElementById("researchSourceList");
+      if (!container) return;
+      const sources = window.researchSources || [];
+      container.innerHTML = sources.map((source) => {
+        const link = source.url
+          ? `<a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer" data-tooltip="打开资料来源">来源</a>`
+          : `<span class="tag">流程入口</span>`;
+        return `
+          <article class="source-card">
+            <header>
+              <div>
+                <span>${escapeHtml(source.provider)} · ${escapeHtml(source.category)} · ${escapeHtml(themeNames[source.relatedTheme] || source.relatedTheme)}</span>
+                <strong>${escapeHtml(source.title)}</strong>
+              </div>
+              ${link}
+            </header>
+            <p>${escapeHtml(source.summary)}</p>
+            <p><b>用途：</b>${escapeHtml(source.usedFor)}；<b>更新：</b>${escapeHtml(source.date)}</p>
+          </article>
+        `;
+      }).join("");
+    }
+
+    renderResearchHub();
     renderTable();
     drawPoolChart();
     drawSectorChart();

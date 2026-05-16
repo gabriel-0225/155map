@@ -626,6 +626,45 @@
       line-height: 1.65;
     }
 
+    .source-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-item {
+      display: grid;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 11px;
+      background: var(--panel-strong);
+    }
+
+    .source-item span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .source-item strong {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .source-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .source-item a {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
     .stock-list {
       display: flex;
       flex-wrap: wrap;
@@ -879,6 +918,11 @@
         <div class="detail-card" id="detailSummary"></div>
       </section>
 
+      <section class="detail-block">
+        <h3>资料来源</h3>
+        <div class="source-list" id="detailSources"></div>
+      </section>
+
       <section class="detail-block" id="stockBlock">
         <h3>A股观察池</h3>
         <div class="stock-list" id="detailStocks"></div>
@@ -896,6 +940,7 @@
     </aside>
   </main>
 
+  <script src="./research-data.js"></script>
   <script>
     const themes = [
       {
@@ -1203,6 +1248,7 @@
     const detailTitle = document.getElementById("detailTitle");
     const detailMeta = document.getElementById("detailMeta");
     const detailSummary = document.getElementById("detailSummary");
+    const detailSources = document.getElementById("detailSources");
     const detailStocks = document.getElementById("detailStocks");
     const detailRisk = document.getElementById("detailRisk");
     const stockBlock = document.getElementById("stockBlock");
@@ -1580,6 +1626,17 @@
       }
       detailSummary.textContent = node.summary || node.note || "选择产业主题后呈现完整投研逻辑。";
       detailRisk.textContent = node.risk || "暂无单独风险约束。";
+      detailSources.innerHTML = sourcesForNode(node).map((source) => {
+        const link = source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">打开来源</a>` : "";
+        return `
+          <article class="source-item">
+            <span>${escapeHtml(source.provider)} · ${escapeHtml(source.category)} · ${escapeHtml(source.date)}</span>
+            <strong>${escapeHtml(source.title)}</strong>
+            <p>${escapeHtml(source.usedFor)}</p>
+            ${link}
+          </article>
+        `;
+      }).join("");
 
       const stocks = node.stocks || collectStocks(node);
       stockBlock.style.display = stocks.length ? "block" : "none";
@@ -1645,6 +1702,21 @@
         button.addEventListener("click", action);
         nodeOptions.appendChild(button);
       });
+    }
+
+    function sourcesForNode(node) {
+      const sources = window.researchSources || [];
+      const themeId = themeIdForNode(node);
+      return sources
+        .filter((source) => source.relatedTheme === "all" || source.relatedTheme === themeId)
+        .slice(0, 5);
+    }
+
+    function themeIdForNode(node) {
+      if (!node || node.type === "root") return "all";
+      if (node.type === "theme") return node.id;
+      const matched = themes.find((theme) => String(node.id).startsWith(`${theme.id}-`));
+      return matched ? matched.id : "all";
     }
 
     function collectStocks(node) {

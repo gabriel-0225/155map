@@ -1,0 +1,122 @@
+window.researchSources = [
+  {
+    id: "official-15th-plan",
+    provider: "PolicyNote",
+    title: "中华人民共和国国民经济和社会发展第十五个五年规划纲要",
+    publisher: "人民政协网 / 新华网",
+    date: "2026-03-13",
+    url: "https://www.rmzxw.com.cn/c/2026-03-13/3886153.shtml",
+    category: "政策原文",
+    relatedTheme: "all",
+    summary: "作为产业地图的一级政策依据，用于校准政策主线、产业链映射和风险约束口径。",
+    usedFor: "政策主线、投资要点、风险提示"
+  },
+  {
+    id: "policynote-tracking",
+    provider: "PolicyNote",
+    title: "政策跟踪工作流",
+    publisher: "政策与监管资料入口",
+    date: "持续更新",
+    url: "",
+    category: "政策跟踪",
+    relatedTheme: "all",
+    summary: "跟踪发改、工信、财政、能源、金融监管等部门的落地文件，把政策强度和执行节奏映射到产业主题。",
+    usedFor: "政策依据、主题优先级、更新记录"
+  },
+  {
+    id: "cbinsights-tech",
+    provider: "CB Insights",
+    title: "科技自立与数字中国赛道研究",
+    publisher: "公司与行业研究入口",
+    date: "待插件补充",
+    url: "",
+    category: "行业研究",
+    relatedTheme: "tech",
+    summary: "用于补充AI算力、国产芯片、工业软件和高端装备的全球产业趋势、融资热度和公司比较。",
+    usedFor: "科技自立自强、数字中国、现代化产业体系"
+  },
+  {
+    id: "cbinsights-industry",
+    provider: "CB Insights",
+    title: "先进制造与机器人产业研究",
+    publisher: "公司与行业研究入口",
+    date: "待插件补充",
+    url: "",
+    category: "行业研究",
+    relatedTheme: "industry",
+    summary: "用于验证新能源车、储能、机器人、新材料等方向的需求兑现、竞争格局和商业化阶段。",
+    usedFor: "产业链受益环节、代表公司逻辑"
+  },
+  {
+    id: "factiva-news",
+    provider: "Factiva",
+    title: "政策与产业新闻监测",
+    publisher: "新闻与公司资料入口",
+    date: "待插件补充",
+    url: "",
+    category: "新闻动态",
+    relatedTheme: "all",
+    summary: "用于沉淀近期香港、A股和全球产业新闻，辅助判断政策预期是否转化为订单、资本开支和公司公告。",
+    usedFor: "最近更新、产业强弱解释"
+  },
+  {
+    id: "mtnewswires-market",
+    provider: "MT Newswires",
+    title: "全球财经新闻与市场事件",
+    publisher: "实时财经新闻入口",
+    date: "待插件补充",
+    url: "",
+    category: "市场动态",
+    relatedTheme: "macro",
+    summary: "用于补充宏观、利率、商品和海外市场事件，解释A股产业主线的短期相对表现。",
+    usedFor: "今日结论、风险提示"
+  },
+  {
+    id: "quartr-company",
+    provider: "Quartr",
+    title: "公司公告、业绩会和投资者关系资料",
+    publisher: "IR资料入口",
+    date: "待插件补充",
+    url: "",
+    category: "公司资料",
+    relatedTheme: "all",
+    summary: "用于补充重点公司的订单、资本开支、盈利质量和管理层表述，服务后续个股详情页。",
+    usedFor: "A股观察池、公司逻辑、风险标签"
+  },
+  {
+    id: "morningstar-risk",
+    provider: "Morningstar",
+    title: "投资研究与基金持仓参考",
+    publisher: "投资研究入口",
+    date: "待插件补充",
+    url: "",
+    category: "投资研究",
+    relatedTheme: "demand",
+    summary: "用于观察消费、医疗、金融等低波动资产的基本面质量、机构关注度和组合配置线索。",
+    usedFor: "扩大内需与民生、金融强国"
+  },
+  {
+    id: "moodys-risk",
+    provider: "Moody's",
+    title: "信用与行业风险情报",
+    publisher: "信用风险入口",
+    date: "待插件补充",
+    url: "",
+    category: "风险情报",
+    relatedTheme: "security",
+    summary: "用于补充地方财政、地产链、基建回款、金融信用风险等底线约束。",
+    usedFor: "安全与韧性、风险约束"
+  },
+  {
+    id: "zotero-library",
+    provider: "Zotero/Manual",
+    title: "长期引用资料库",
+    publisher: "手工整理与引用管理",
+    date: "持续更新",
+    url: "",
+    category: "引用管理",
+    relatedTheme: "all",
+    summary: "用于保存政策原文、研报、公告、新闻和电话会纪要，保证网页结论可以回溯。",
+    usedFor: "资料归档、引用口径、版本记录"
+  }
+];
